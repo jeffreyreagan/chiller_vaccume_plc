@@ -1,10 +1,34 @@
 <!DOCTYPE html>
 <html>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>    
+    
+
+
+    <p>Vacuum at Pump 1: <span id="pump1vacuum"></span></p>
+    <p>Vacuum at Pump 2: <span id="pump2vacuum"></span></p>
+    <script>
+        // Function to fetch updated data from the server
+        function fetchPump1VacuumData() {
+            $.getJSON('/get_pump1vacuum_data', function(data) {
+                $('#pump1vacuum').text(data.pump1vacuum);
+            });
+        }
+        function fetchPump2VacuumData() {
+            $.getJSON('/get_pump2vacuum_data', function(data) {
+                $('#pump2vacuum').text(data.pump2vacuum);
+            });
+        }
+        // Fetch data initially when the page loads
+        fetchPump1VacuumData();
+        fetchPump2VacuumData();
+        // Update data every second
+        setInterval(fetchPump1VacuumData, 1000);
+        setInterval(fetchPump2VacuumData, 1000);
+    </script>
 
 
 
-
-<svg width="1200" height="400">
+<svg width="300" height="400">
 <!--Inlet Filter-->
     <rect x="75" y="20" width="100" height="50" stroke="black" fill="white"></rect>
     <rect x="60" y="45" width="15" height="7" stroke="black" fill="green"></rect>
@@ -18,12 +42,15 @@
 <!--Pump-->
     <circle cx="160" cy="110" r="35" stroke="black" fill="white" />
     <circle cx="160" cy="125" r="20" stroke="black" fill="green" />
-<!--Pipe 2-->
+    <text x="140" y="100" fill="black">Pump</text>
+<!--Pipe 2 orange pump to seperator-->
     <rect x="195" y="105" width="10" height="5" stroke="black" fill="orange"></rect>
     <rect x="205" y="102.5" width="25" height="10" stroke="black" fill="orange"></rect>
     <rect x="210" y="80" width="15" height="25" stroke="black" fill="orange"></rect>
     <rect x="230" y="105" width="10" height="5" stroke="black" fill="orange"></rect>
-    
+    <rect x="235" y="105" width="5" height="50" stroke="black" fill="orange"></rect>
+<!--Pipe 2 orange seperator to exhaust-->
+    <rect x="55" y="170" width="180" height="5" stroke="black" fill="orange"></rect>
 <!--Radiator-->
 
     <rect x="200" y="140" width="40" height="40" stroke="black" fill="orange"></rect>
@@ -42,47 +69,64 @@
 </svg>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<svg width="1200" height="400">
+<!--Pump 2 UI-->
+<svg width="300" height="400">
     <!--Inlet Filter-->
-        <rect x="75" y="20" width="100" height="50" stroke="black" fill="white">
-            <rect x="60" y="45" width="15" height="7" stroke="black" fill="white" />
-        </rect>
+        <rect x="75" y="20" width="100" height="50" stroke="black" fill="white"></rect>
+        <rect x="60" y="45" width="15" height="7" stroke="black" fill="green"></rect>
         <text x="90" y="40" fill="black">inlet filter</text>
+    
+    <!--Pipe 1 inlet-->
+        <polyline points="75,70 100,95 130,95 " 
+        style="fill:none;stroke:black;stroke-width:1" />
+        <polyline points="100,70 110,80 141,80"
+        style="fill:none;stroke:black;stroke-width:1" />
     <!--Pump-->
         <circle cx="160" cy="110" r="35" stroke="black" fill="white" />
+        <circle cx="160" cy="125" r="20" stroke="black" fill="green" />
+        <text x="140" y="100" fill="black">Pump</text>
+    <!--Pipe 2 orange pump to seperator-->
+        <rect x="195" y="105" width="10" height="5" stroke="black" fill="orange"></rect>
+        <rect x="205" y="102.5" width="25" height="10" stroke="black" fill="orange"></rect>
+        <rect x="210" y="80" width="15" height="25" stroke="black" fill="orange"></rect>
+        <rect x="230" y="105" width="10" height="5" stroke="black" fill="orange"></rect>
+        <rect x="235" y="105" width="5" height="50" stroke="black" fill="orange"></rect>
+    <!--Pipe 2 orange seperator to exhaust-->
+        <rect x="55" y="170" width="180" height="5" stroke="black" fill="orange"></rect>
+    <!--Radiator-->
     
-        <circle cx="160" cy="125" r="20" stroke="black" fill="white" />
-        
+        <rect x="200" y="140" width="40" height="40" stroke="black" fill="orange"></rect>
+        <circle cx="220" cy="160" r="20" stroke="black" fill="green"></circle>
+        <circle cx="220" cy="160" r="5" stroke="black" fill="green"></circle>
+        <ellipse cx="220" cy="160" rx="16" ry="12" stroke="black" fill="white" transform="rotate(90 300 300)" ></ellipse>
+        <!--pump valve-->
+        <rect x="110" y="90" width="15" height="2" stroke="black" fill="green"> </rect>
+    
+        <polyline points="75,70 100,95 130,95 " 
+        style="fill:none;stroke:black;stroke-width:1" />
+    
     <!--Exhaust-->
-        
-        </clipPath>
-          
-        <ellipse cx="120" cy="550" rx="30" ry="15" stroke="black" fill="white" transform="rotate(90 300 300)" clip-path="url(#clip)"/>
-        <text x="25" y="85" fill="black">Exhaust</text>
-          
-
-        <polyline points="0,0 40,40 60,60 80,20 100,100" 
-        style="fill:none;stroke:black;stroke-width:3" />
+        <ellipse cx="145" cy="550" rx="36" ry="22" stroke="black" fill="white" transform="rotate(90 300 300)" ></ellipse>
+        <text x="25" y="95" fill="black">Exhaust</text>
     </svg>
     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 </html>
 

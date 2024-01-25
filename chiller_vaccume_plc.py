@@ -9,13 +9,17 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-
-    return render_template('test.html')
+    return render_template('index2.html')
 
 @app.route('/get_pump1vacuum_data')
 def get_pump1vacuum_data():
-    pump1vacuum = read_plc_tag()
+    pump1vacuum = read_plc_tag()[0]
     return jsonify({'pump1vacuum': pump1vacuum})
+
+@app.route('/get_pump2vacuum_data')
+def get_pump2vacuum_data():
+    pump2vacuum = read_plc_tag()[1]
+    return jsonify({'pump2vacuum': pump2vacuum})
 
 '''@app.route('/get_plc_data')
 def get_plc_data():
