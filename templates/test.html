@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PLC Tag Value</title>
+</head>
+<body>
+    <p>Vacuum at Pump 1: <span id="pump1vacuum"></span></p>
+
+    <script>
+        // Function to fetch updated data from the server
+        function fetchPump1VacuumData() {
+            $.getJSON('/get_pump1vacuum_data', function(data) {
+                $('#pump1vacuum').text(data.pump1vacuum);
+            });
+        }
+
+        // Fetch data initially when the page loads
+        fetchPump1VacuumData();
+
+        // Update data every second
+        setInterval(fetchPump1VacuumData, 1000);
+    </script>
+</body>
+</html>
