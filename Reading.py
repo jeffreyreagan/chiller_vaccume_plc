@@ -57,19 +57,25 @@ def read_alarm_tags_all_pumps(tag_names):
 
     return None
 
-# Example usage:
+#Alarm Lists created:
 pump1_alarm_tags = ['VPUMP_1_B10[2].0', 'VPUMP_1_B10[2].1', 'VPUMP_1_B10[2].2', 'VPUMP_1_B10[2].3', 'VPUMP_1_B10[2].4', 'VPUMP_1_B10[2].5', 'VPUMP_1_B10[2].6', 'VPUMP_1_B10[2].7', 'VPUMP_1_B10[2].8', 'VPUMP_1_B10[2].9', 'VPUMP_1_B10[2].10', 'VPUMP_1_B10[2].11', 'VPUMP_1_B10[2].12', 'VPUMP_1_B10[2].13', 'VPUMP_1_B10[2].14', 'VPUMP_1_B10[2].15']
 pump2_alarm_tags= ['VPUMP_2_B10[2].0', 'VPUMP_2_B10[2].1', 'VPUMP_2_B10[2].2', 'VPUMP_2_B10[2].3', 'VPUMP_2_B10[2].4', 'VPUMP_2_B10[2].5', 'VPUMP_2_B10[2].6', 'VPUMP_2_B10[2].7', 'VPUMP_2_B10[2].8', 'VPUMP_2_B10[2].9', 'VPUMP_2_B10[2].10', 'VPUMP_2_B10[2].11', 'VPUMP_2_B10[2].12', 'VPUMP_2_B10[2].13', 'VPUMP_2_B10[2].14', 'VPUMP_2_B10[2].15']
 
+
 pump1_alarm_tag_list = read_alarm_tags_all_pumps(pump1_alarm_tags)
+'''for alarms in pump1_alarm_tag_list:
+    if pump1_alarm_tag_list.values == 1:
+         print("ALARM ACTIVE")
+         failed attempt!'''
 
-
-        
-
-    # Read the values of the tags and specific bits within them
-
-
-
+# Checking if any of the alarm values equals 1
+if any(value == 1 for value in pump1_alarm_tag_list.values()):
+    print("ALARM ACTIVE")
+if all(value == None for value in pump1_alarm_tag_list.values()):
+     print("No alarm active")
+             
+pump2_alarm_tag_list = read_alarm_tags_all_pumps(pump2_alarm_tags)
+print(pump2_alarm_tag_list, pump1_alarm_tag_list)
 if __name__ == "__main__":
     plc_ip_address = "172.16.21.12"
 
