@@ -1,17 +1,39 @@
 <!DOCTYPE html>
 <html>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>    
-    
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
-    <p>Vacuum at Pump 1: <span id="pump1vacuum"></span> Alarm: <span id="alarmpump1"></span></p>
-    <script>
-        // Function to fetch updated data from the server
+
+    <p>Vacuum at Pump 1: <span id="pump1vacuum"></span> </p>
+    <p>Seperator Pressure <span id="seperator1_psi"></span></p>
+    <p>Alarm: <span id="pump1alarmstatus"></span> Description:<span id="pump1_active_alarms"></span></p>
+
+<script>
         function fetchPump1VacuumData() {
             $.getJSON('/get_pump1vacuum_data', function(data) {
                 $('#pump1vacuum').text(data.pump1vacuum);
             });
+            $.getJSON('/get_VACUUM_1_SEPARATOR_PRESSURE_data', function(data) {
+                $('#seperator1_psi').text(data.seperator1_psi);
+            });
         }
+        function updatealarmstatuspump1() {
+            $.getJSON('/get_pump1vacuum_alarm_status', function(data) {
+                $('#pump1alarmstatus').text(data.pump1alarmstatus);
+            });
+        }
+        updatealarmstatuspump1();
+        setInterval(updatealarmstatuspump1, 1000);
+
+        function updateactivealarmspump1() {
+            $.getJSON('/get_pump1vacuum_alarm_status', function(data) {
+                $('#pump1_active_alarms').text(data.pump1_active_alarms);
+            });
+        }
+        updateactivealarmspump1();
+        setInterval(updateactivealarmspump1, 1000);
+
+
         function fetchPump2VacuumData() {
             $.getJSON('/get_pump2vacuum_data', function(data) {
                 $('#pump2vacuum').text(data.pump2vacuum);
@@ -23,9 +45,21 @@
         // Update data every second
         setInterval(fetchPump1VacuumData, 1000);
         setInterval(fetchPump2VacuumData, 1000);
-    </script>
 
+        function updateCircleColor() {
+            fetch('/get_circle_color')
+            .then(response => response.text())
+            .then(color => {
+                document.getElementById('pump1status').setAttribute('fill', color);
+            });
+        }
 
+    // Call updateCircleColor() function initially
+        updateCircleColor();
+
+    // Call updateCircleColor() function every second
+        setInterval(updateCircleColor, 1000);
+</script>
 
 <svg width="300" height="400">
 <!--Inlet Filter-->
@@ -34,14 +68,15 @@
     <text x="90" y="40" fill="black">inlet filter</text>
 
 <!--Pipe 1 inlet-->
-    <polyline points="75,70 100,95 130,95 " 
+    <polyline points="75,70 100,95 130,95 "
     style="fill:none;stroke:black;stroke-width:1" />
     <polyline points="100,70 110,80 141,80"
     style="fill:none;stroke:black;stroke-width:1" />
 <!--Pump-->
     <circle cx="160" cy="110" r="35" stroke="black" fill="white" />
-    <circle cx="160" cy="125" r="20" stroke="black" fill="green" />
+    <circle id='pump1status'cx="160" cy="125" r="20" stroke="black" fill="green" />
     <text x="140" y="100" fill="black">Pump</text>
+
 <!--Pipe 2 orange pump to seperator-->
     <rect x="195" y="105" width="10" height="5" stroke="black" fill="orange"></rect>
     <rect x="205" y="102.5" width="25" height="10" stroke="black" fill="orange"></rect>
@@ -59,13 +94,73 @@
     <!--pump valve-->
     <rect x="110" y="90" width="15" height="2" stroke="black" fill="green"> </rect>
 
-    <polyline points="75,70 100,95 130,95 " 
+    <polyline points="75,70 100,95 130,95 "
     style="fill:none;stroke:black;stroke-width:1" />
 
 <!--Exhaust-->
     <ellipse cx="145" cy="550" rx="36" ry="22" stroke="black" fill="white" transform="rotate(90 300 300)" ></ellipse>
     <text x="25" y="95" fill="black">Exhaust</text>
 </svg>
+
+<script>
+    // Get reference to the smaller circle
+    const smallerCircle = document.getElementById('pump1status');
+    let interval;
+    // Function to animate the circle around the larger circle
+    function animateCircle(angle) {
+      // Calculate the new position of the smaller circle
+      const centerX = 160; // x-coordinate of the center of the larger circle
+      const centerY = 110; // y-coordinate of the center of the larger circle
+      const radius = 15; // radius of the larger circle
+      const newX = centerX + radius * Math.cos(angle);
+      const newY = centerY + radius * Math.sin(angle);
+      // Update the position of the smaller circle
+      smallerCircle.setAttribute('cx', newX);
+      smallerCircle.setAttribute('cy', newY);
+    }
+    // Example: Trigger the animation based on a boolean condition
+    function startAnimation() {
+        if (isAnimationRunning()) {
+            return; // Exit function if animation is already running
+        }
+            // Animate the circle
+        let angle = 0;
+            interval = setInterval(() => {
+                // Increment angle for animation
+                angle += 0.05; // Adjust the speed of animation by changing the increment
+
+                // Update circle position
+                animateCircle(angle);
+            }, 50); // Adjust the interval for smoother animation
+        }
+
+        // Function to stop the animation
+        function stopAnimation() {
+            clearInterval(interval); // Stop the animation interval
+        }
+        function isAnimationRunning() {
+            return interval !== undefined;
+        }
+        // Function to check the animation status
+        function checkAnimationStatus() {
+            fetch('/check_animation_status') // Fetch the animation status from the server
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data); // Log the response data (for debugging)
+                    if (data.status === 'Animation started' && !isAnimationRunning()) {
+                        startAnimation(); // Start the animation if it's not already running
+                    } else if (data.status !== 'Animation started' && isAnimationRunning()) {
+                        stopAnimation(); // Stop the animation if it's running
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking animation status:', error);
+                });
+        }
+
+        // Polling interval: check animation status every 1 second
+        setInterval(checkAnimationStatus, 1000);
+    </script>
 
 <p>Vacuum at Pump 2: <span id="pump2vacuum"></span></p>
 <!--Pump 2 UI-->
@@ -74,9 +169,9 @@
         <rect x="75" y="20" width="100" height="50" stroke="black" fill="white"></rect>
         <rect x="60" y="45" width="15" height="7" stroke="black" fill="green"></rect>
         <text x="90" y="40" fill="black">inlet filter</text>
-    
+
     <!--Pipe 1 inlet-->
-        <polyline points="75,70 100,95 130,95 " 
+        <polyline points="75,70 100,95 130,95 "
         style="fill:none;stroke:black;stroke-width:1" />
         <polyline points="100,70 110,80 141,80"
         style="fill:none;stroke:black;stroke-width:1" />
@@ -93,22 +188,22 @@
     <!--Pipe 2 orange seperator to exhaust-->
         <rect x="55" y="170" width="180" height="5" stroke="black" fill="orange"></rect>
     <!--Radiator-->
-    
+
         <rect x="200" y="140" width="40" height="40" stroke="black" fill="orange"></rect>
         <circle cx="220" cy="160" r="20" stroke="black" fill="green"></circle>
         <circle cx="220" cy="160" r="5" stroke="black" fill="green"></circle>
         <ellipse cx="220" cy="160" rx="16" ry="12" stroke="black" fill="white" transform="rotate(90 300 300)" ></ellipse>
         <!--pump valve-->
         <rect x="110" y="90" width="15" height="2" stroke="black" fill="green"> </rect>
-    
-        <polyline points="75,70 100,95 130,95 " 
+
+        <polyline points="75,70 100,95 130,95 "
         style="fill:none;stroke:black;stroke-width:1" />
-    
+
     <!--Exhaust-->
         <ellipse cx="145" cy="550" rx="36" ry="22" stroke="black" fill="white" transform="rotate(90 300 300)" ></ellipse>
         <text x="25" y="95" fill="black">Exhaust</text>
     </svg>
-    
+
 
 
 

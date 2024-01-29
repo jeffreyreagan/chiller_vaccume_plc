@@ -1,44 +1,39 @@
-# Connect to the PLC
 from pylogix import PLC
 import time
-
-
-# Function to read the PLC tags for vacuum pressure and return the value in a readable format
+# Function to read the PLC tags for vacuum and seperator pressure and return the values in a readable format
 def read_plc_tag():
         try:
             with PLC() as comm:
                 comm.IPAddress = '172.16.21.12' 
                 comm.ProcessorSlot = 0  
-        # Define the tag to read
-                tags = ['VACUUM_AT_PUMP_1','VACUUM_AT_PUMP_2']
+                tags = ['VACUUM_1_VACUUM','VACUUM_2_VACUUM','VACUUM_1_SEPARATOR_PRESSURE']
                 pump1vacuum = None
                 pump2vacuum = None
-
-            # Read the value of the tag
+                seperator1_psi = None
                 results = comm.Read(tags)
                 print(results)
                 for result in results:
                     if result.Status == 'Success':
-                        if result.TagName == 'VACUUM_AT_PUMP_1':
+                        if result.TagName == 'VACUUM_1_VACUUM':
                             result.Value *= 0.1
                             pump1vacuum_formatted = "{:.2f}".format(result.Value)
                             pump1vacuum = str(pump1vacuum_formatted) + " Hg"
-                            
-                        elif result.TagName == 'VACUUM_AT_PUMP_2':
+                        elif result.TagName == 'VACUUM_2_VACUUM':
                             result.Value *= 0.1
                             pump2vacuum_formatted = "{:.2f}".format(result.Value)
                             pump2vacuum = str(pump2vacuum_formatted) + " Hg"
-                            
-                return pump1vacuum, pump2vacuum
-            # Check if the read was successful
-                
+                        elif result.TagName == 'VACUUM_1_SEPARATOR_PRESSURE':
+                            result.Value *= 0.1
+                            seperator1_psi_formatted = "{:.2f}".format(result.Value)
+                            seperator1_psi = str(seperator1_psi_formatted) + " PSI"
+                return pump1vacuum, pump2vacuum, seperator1_psi
         except Exception as e:
                     print(f"An error occurred: {e}")
 
 def read_alarm_tags_all_pumps(tag_names):
     try:
         with PLC() as comm:
-            comm.IPAddress = 'your_plc_ip_address'  # Replace with your PLC's IP address
+            comm.IPAddress = '172.16.21.12'  # Replace with your PLC's IP address
             comm.ProcessorSlot = 0  # Replace with your processor slot if needed
             
             results = comm.Read(tag_names)
@@ -56,31 +51,64 @@ def read_alarm_tags_all_pumps(tag_names):
         print(f"An error occurred: {e}")
 
     return None
+def update_alarm_tags_all_pumps():
+    pump1_alarm_tags = ['VPUMP_1_B10[2].0', 'VPUMP_1_B10[2].1', 'VPUMP_1_B10[2].2', 'VPUMP_1_B10[2].3', 'VPUMP_1_B10[2].4', 'VPUMP_1_B10[2].5', 'VPUMP_1_B10[2].6', 'VPUMP_1_B10[2].7', 'VPUMP_1_B10[2].8', 'VPUMP_1_B10[2].9', 'VPUMP_1_B10[2].10', 'VPUMP_1_B10[2].11', 'VPUMP_1_B10[2].12', 'VPUMP_1_B10[2].13', 'VPUMP_1_B10[2].14', 'VPUMP_1_B10[2].15']
+    pump2_alarm_tags= ['VPUMP_2_B10[2].0', 'VPUMP_2_B10[2].1', 'VPUMP_2_B10[2].2', 'VPUMP_2_B10[2].3', 'VPUMP_2_B10[2].4', 'VPUMP_2_B10[2].5', 'VPUMP_2_B10[2].6', 'VPUMP_2_B10[2].7', 'VPUMP_2_B10[2].8', 'VPUMP_2_B10[2].9', 'VPUMP_2_B10[2].10', 'VPUMP_2_B10[2].11', 'VPUMP_2_B10[2].12', 'VPUMP_2_B10[2].13', 'VPUMP_2_B10[2].14', 'VPUMP_2_B10[2].15']
+    pump1_alarm_comments={'VPUMP_1_B10[2].0':'Vacuum Xmtr Signal Failure Fault Latch','VPUMP_1_B10[2].1':'PSI Xmtr Signal Failure Fault Latch','VPUMP_1_B10[2].10':'test alarm active!'}
+    pump1_alarm_tag_list = read_alarm_tags_all_pumps(pump1_alarm_tags)
+    pump1_active_alarms = [pump1_alarm_comments[tag] for tag, value in pump1_alarm_tag_list.items() if value == 1]
+    pump2_alarm_tag_list = read_alarm_tags_all_pumps(pump2_alarm_tags)
+    '''print(pump2_alarm_tag_list, pump1_alarm_tag_list)'''
+    if any(value == 1 for value in pump1_alarm_tag_list.values()):
+        print(pump1_active_alarms)
+        print("ALARM ACTIVE")
+        pump1alarmstatus = True 
+    elif all(value == 0 for value in pump1_alarm_tag_list.values()):
+        print("No alarm active")
+        pump1alarmstatus = False
 
-#Alarm Lists created:
-pump1_alarm_tags = ['VPUMP_1_B10[2].0', 'VPUMP_1_B10[2].1', 'VPUMP_1_B10[2].2', 'VPUMP_1_B10[2].3', 'VPUMP_1_B10[2].4', 'VPUMP_1_B10[2].5', 'VPUMP_1_B10[2].6', 'VPUMP_1_B10[2].7', 'VPUMP_1_B10[2].8', 'VPUMP_1_B10[2].9', 'VPUMP_1_B10[2].10', 'VPUMP_1_B10[2].11', 'VPUMP_1_B10[2].12', 'VPUMP_1_B10[2].13', 'VPUMP_1_B10[2].14', 'VPUMP_1_B10[2].15']
-pump2_alarm_tags= ['VPUMP_2_B10[2].0', 'VPUMP_2_B10[2].1', 'VPUMP_2_B10[2].2', 'VPUMP_2_B10[2].3', 'VPUMP_2_B10[2].4', 'VPUMP_2_B10[2].5', 'VPUMP_2_B10[2].6', 'VPUMP_2_B10[2].7', 'VPUMP_2_B10[2].8', 'VPUMP_2_B10[2].9', 'VPUMP_2_B10[2].10', 'VPUMP_2_B10[2].11', 'VPUMP_2_B10[2].12', 'VPUMP_2_B10[2].13', 'VPUMP_2_B10[2].14', 'VPUMP_2_B10[2].15']
+    else: 
+         print("Error connecting to PLC to be specific the alarm tags have not been fetched successfully")
+         pump1alarmstatus = None
+    return pump1alarmstatus, pump1_active_alarms
 
 
-pump1_alarm_tag_list = read_alarm_tags_all_pumps(pump1_alarm_tags)
-'''for alarms in pump1_alarm_tag_list:
-    if pump1_alarm_tag_list.values == 1:
-         print("ALARM ACTIVE")
-         failed attempt!'''
+def update_circle_color():
+    try:
+        with PLC() as comm:
+                comm.IPAddress = '172.16.21.12' 
+                comm.ProcessorSlot = 0  
+                tag = 'VACUUM_1_STATUS'
+                result = comm.Read(tag)
+        if result.Status == 'Success':
+            value = result.Value
+            print(result.Value)
+            if value == 3:
+                circle_color = 'green'
+            if value == 2:
+                circle_color = 'red'
+            # Update SVG
+            print(circle_color)
+            return circle_color
+        else:
+            print(f"Failed to read tag '{tag}'")
+        time.sleep(1)
+    except Exception as e:
+                    print(f"An error occurred: {e}")
 
-# Checking if any of the alarm values equals 1
-if any(value == 1 for value in pump1_alarm_tag_list.values()):
-    print("ALARM ACTIVE")
-if all(value == None for value in pump1_alarm_tag_list.values()):
-     print("No alarm active")
-             
-pump2_alarm_tag_list = read_alarm_tags_all_pumps(pump2_alarm_tags)
-print(pump2_alarm_tag_list, pump1_alarm_tag_list)
+
+
+
 if __name__ == "__main__":
     plc_ip_address = "172.16.21.12"
 
+# Function to read the tag and update SVG circle color
 
 
+
+
+
+#The Graveyard
 '''Still figuring out array data formatting     for tag in tags:
         for i in range(20):  # Assuming the array length is 20
             for bit in range(32):  # Assuming each integer has 32 bits
@@ -93,3 +121,8 @@ if __name__ == "__main__":
                         print(f"{element_description}, Value: {value}")
                 else:
                     print(f"Failed to read tag: {element_tag}")'''
+
+'''for alarms in pump1_alarm_tag_list:
+    if pump1_alarm_tag_list.values == 1:
+         print("ALARM ACTIVE")
+         failed attempt!'''
