@@ -119,39 +119,51 @@
       smallerCircle.setAttribute('cy', newY);
     }
     // Example: Trigger the animation based on a boolean condition
+    let animation_state = 0;
     function startAnimation() {
-        if (isAnimationRunning()) {
+        if (animation_state == 2) {
             return; // Exit function if animation is already running
         }
-            // Animate the circle
-        let angle = 0;
-            interval = setInterval(() => {
+            // Animate the circle  
+        if (animation_state == 1) {
+            ; // Exit function if animation is already running
+         
+            console.log("should be starting ")
+            let angle = 0;
+                interval = setInterval(() => {
                 // Increment angle for animation
-                angle += 0.05; // Adjust the speed of animation by changing the increment
+                    angle += 0.05; // Adjust the speed of animation by changing the increment
 
                 // Update circle position
-                animateCircle(angle);
-            }, 50);
-            checkAnimationStatus(); // Adjust the interval for smoother animation
+                    animateCircle(angle);
+                }, 50);
+                 
+                animation_state = 2;
+                checkAnimationStatus();// Adjust the interval for smoother animation
         }
-
+        }
         // Function to stop the animation
-        function stopAnimation() {
+    function stopAnimation() {
             clearInterval(interval);
+            console.log(interval)
+            animation_state = 0;
             checkAnimationStatus(); // Stop the animation interval
         }
-        function isAnimationRunning() {
-            return interval !== undefined;
-        }
+    function isAnimationRunning() {
+            return animation_state !== 2;
+}
         // Function to check the animation status
-        function checkAnimationStatus() {
+    function checkAnimationStatus() {
             fetch('/check_animation_status') // Fetch the animation status from the server
                 .then(response => response.json())
                 .then(data => {
                     console.log(data); // Log the response data (for debugging)
-                    if (data.status === 'Animation started') {
+                    if (data.status === 'Animation started' && animation_state !== 2) {
+                        console.log("testing");
+                        animation_state = 1;
                         startAnimation(); // Start the animation if it's not already running
-                    } else if (data.status !== 'Animation started' && isAnimationRunning()) {
+                    } else if (data.status !== 'Animation started') {
+                        animation_state = 0;
                         stopAnimation(); // Stop the animation if it's running
                         
                     }

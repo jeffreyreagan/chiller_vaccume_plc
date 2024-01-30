@@ -36,7 +36,7 @@ def get_circle_color():
 
 
 @app.route('/check_animation_status')
-def scheck_animation_status():
+def check_animation_status():
     circle_color = update_circle_color()
     if circle_color == 'green':
         # Here you can return some data if needed
