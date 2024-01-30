@@ -131,12 +131,14 @@
 
                 // Update circle position
                 animateCircle(angle);
-            }, 50); // Adjust the interval for smoother animation
+            }, 50);
+            checkAnimationStatus(); // Adjust the interval for smoother animation
         }
 
         // Function to stop the animation
         function stopAnimation() {
-            clearInterval(interval); // Stop the animation interval
+            clearInterval(interval);
+            checkAnimationStatus(); // Stop the animation interval
         }
         function isAnimationRunning() {
             return interval !== undefined;
@@ -147,10 +149,11 @@
                 .then(response => response.json())
                 .then(data => {
                     console.log(data); // Log the response data (for debugging)
-                    if (data.status === 'Animation started' && !isAnimationRunning()) {
+                    if (data.status === 'Animation started') {
                         startAnimation(); // Start the animation if it's not already running
                     } else if (data.status !== 'Animation started' && isAnimationRunning()) {
                         stopAnimation(); // Stop the animation if it's running
+                        
                     }
                 })
                 .catch(error => {
