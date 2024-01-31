@@ -74,28 +74,44 @@ def update_alarm_tags_all_pumps():
 
 
 def update_circle_color():
+    circle_color_p1 = ''  # Initialize colors
+    circle_color_p2 = ''
     try:
         with PLC() as comm:
-                comm.IPAddress = '172.16.21.12' 
-                comm.ProcessorSlot = 0  
-                tag = 'VACUUM_1_STATUS'
-                result = comm.Read(tag)
-        if result.Status == 'Success':
-            value = result.Value
-            print(result.Value)
-            if value == 3:
-                circle_color = 'green'
-            if value == 2:
-                circle_color = 'red'
-            # Update SVG
-            print(circle_color)
-            return circle_color
-        else:
-            print(f"Failed to read tag '{tag}'")
-        time.sleep(1)
+            comm.IPAddress = '172.16.21.12' 
+            comm.ProcessorSlot = 0  
+            tags = ['VACUUM_1_STATUS','VACUUM_2_STATUS']
+            results = comm.Read(tags)
+            for result in results:
+                if result.Status == 'Success':
+                    if result.TagName == 'VACUUM_1_STATUS':
+                        pump_1_status_value = result.Value
+                        print(result.Value)
+                        if pump_1_status_value == 3:
+                            circle_color_p1 = 'green'
+                            print("here is p1_color-", circle_color_p1)
+                        elif pump_1_status_value == 2:
+                            circle_color_p1 = 'red'
+                            print("here is p1_color-", circle_color_p1)
+                    elif result.TagName == 'VACUUM_2_STATUS':
+                        pump_2_status_value = result.Value
+                        print(result.TagName)
+                        if pump_2_status_value == 3:
+                            circle_color_p2 = 'green'
+                            print("here is p2_color-", circle_color_p2)
+                        elif pump_2_status_value == 2:
+                            circle_color_p2 = 'red'
+                            print("here is p2_color-", circle_color_p2)
+                else:
+                    print(f"Failed to read tag '{result.TagName}'")
+            time.sleep(1)
+            print("returning pump colors")
+            return circle_color_p1, circle_color_p2
+              # Return colors after loop
     except Exception as e:
-                    print(f"An error occurred: {e}")
-
+        print(f"An error occurred: {e}")
+    
+    
 
 
 

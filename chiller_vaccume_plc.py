@@ -11,7 +11,7 @@ app = Flask(__name__)
 def index():
     return render_template('index2.html')
 
-
+'''pump 1'''
 @app.route('/get_pump1vacuum_data')
 def get_pump1vacuum_data():
     pump1vacuum = read_plc_tag()[0]
@@ -30,21 +30,25 @@ def get_VACUUM_1_SEPARATOR_PRESSURE_data():
 
 @app.route('/get_circle_color')
 def get_circle_color():
-    circle_color = update_circle_color()
-    return circle_color
+    circle_color_p1 = update_circle_color()
+    circle_color_p2 = update_circle_color()
+    return circle_color_p1 and circle_color_p2
     
-
 
 @app.route('/check_animation_status')
 def check_animation_status():
-    circle_color = update_circle_color()
-    if circle_color == 'green':
+    circle_color_p1 = update_circle_color()
+    circle_color_p2 = update_circle_color()
+    if circle_color_p1 == 'green':
         # Here you can return some data if needed
-        print("blah blah blah")
-        return jsonify({'status': 'Animation started'})
-    else:
-        print('nahhhhhhhhhhhh')
-        return jsonify({'status': 'Pump 1 is not running, animation cannot be started'}), 403
+        print("updating pump 1 status")
+        return jsonify({'status': 'Animation 1 started'})
+    if circle_color_p2 == 'green':
+        # Here you can return some data if needed
+        print("updating pump 2 status")
+        return jsonify({'status': 'Animation 2 started'})
+
+    
 
 @app.route('/get_pump2vacuum_data')
 def get_pump2vacuum_data():

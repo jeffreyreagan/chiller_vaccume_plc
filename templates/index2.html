@@ -23,7 +23,7 @@
             });
         }
         updatealarmstatuspump1();
-        setInterval(updatealarmstatuspump1, 1000);
+        setInterval(updatealarmstatuspump1, 2000);
 
         function updateactivealarmspump1() {
             $.getJSON('/get_pump1vacuum_alarm_status', function(data) {
@@ -31,7 +31,7 @@
             });
         }
         updateactivealarmspump1();
-        setInterval(updateactivealarmspump1, 1000);
+        setInterval(updateactivealarmspump1, 2000);
 
 
         function fetchPump2VacuumData() {
@@ -43,8 +43,8 @@
         fetchPump1VacuumData();
         fetchPump2VacuumData();
         // Update data every second
-        setInterval(fetchPump1VacuumData, 1000);
-        setInterval(fetchPump2VacuumData, 1000);
+        setInterval(fetchPump1VacuumData, 2000);
+        setInterval(fetchPump2VacuumData, 2000);
 
         function updateCircleColor() {
             fetch('/get_circle_color')
@@ -58,7 +58,7 @@
         updateCircleColor();
 
     // Call updateCircleColor() function every second
-        setInterval(updateCircleColor, 1000);
+        setInterval(updateCircleColor, 2000);
 </script>
 
 <svg width="300" height="400">
@@ -119,13 +119,17 @@
       smallerCircle.setAttribute('cy', newY);
     }
     // Example: Trigger the animation based on a boolean condition
-    let animation_state = 0;
+    let animation_state_p1 = 0;
+    let animation_state_p2 = 0;
     function startAnimation() {
-        if (animation_state == 2) {
+        if (animation_state_p1 == 2) {
+            return; // Exit function if animation is already running
+        }
+        if (animation_state_p2 == 2) {
             return; // Exit function if animation is already running
         }
             // Animate the circle  
-        if (animation_state == 1) {
+        if (animation_state_p1 == 1) {
             ; // Exit function if animation is already running
          
             console.log("should be starting ")
@@ -138,7 +142,23 @@
                     animateCircle(angle);
                 }, 50);
                  
-                animation_state = 2;
+                animation_state_p1 = 2;
+                checkAnimationStatus();// Adjust the interval for smoother animation
+        }
+        if (animation_state_p2 == 1) {
+            ; // Exit function if animation is already running
+         
+            console.log("should be starting ")
+            let angle = 0;
+                interval = setInterval(() => {
+                // Increment angle for animation
+                    angle += 0.05; // Adjust the speed of animation by changing the increment
+
+                // Update circle position
+                    animateCircle(angle);
+                }, 50);
+                 
+                animation_state_p2 = 2;
                 checkAnimationStatus();// Adjust the interval for smoother animation
         }
         }
@@ -146,11 +166,12 @@
     function stopAnimation() {
             clearInterval(interval);
             console.log(interval)
-            animation_state = 0;
+            animation_state_p1 = 0;
+            animation_state_p2 = 0;
             checkAnimationStatus(); // Stop the animation interval
         }
     function isAnimationRunning() {
-            return animation_state !== 2;
+            return animation_state_p1 !== 2, animation_state_p2 !== 2;
 }
         // Function to check the animation status
     function checkAnimationStatus() {
@@ -158,14 +179,16 @@
                 .then(response => response.json())
                 .then(data => {
                     console.log(data); // Log the response data (for debugging)
-                    if (data.status === 'Animation started' && animation_state !== 2) {
+                    if (data.status === 'Animation 1 started' && animation_state_p1 !== 2) {
                         console.log("testing");
-                        animation_state = 1;
+                        animation_state_p1 = 1;
                         startAnimation(); // Start the animation if it's not already running
-                    } else if (data.status !== 'Animation started') {
-                        animation_state = 0;
+                    } else if (data.status !== 'Animation 1 started') {
+                        animation_state_p1 = 0;
                         stopAnimation(); // Stop the animation if it's running
-                        
+                    } if (data.status === 'Animation 2 started' && animation_state_p2 !== 2) {
+                        console.log("trying to start animation p_2");
+                        animation_state_p2 = 1;
                     }
                 })
                 .catch(error => {
