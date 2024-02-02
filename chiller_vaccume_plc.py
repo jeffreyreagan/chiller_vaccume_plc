@@ -37,16 +37,24 @@ def get_circle_color():
 
 @app.route('/check_animation_status')
 def check_animation_status():
+    results = []
     circle_color_p1 = update_circle_color()
     circle_color_p2 = update_circle_color()
-    if circle_color_p1 == 'green':
+    if circle_color_p1[0] == 'green':
         # Here you can return some data if needed
         print("updating pump 1 status")
-        return jsonify({'status': 'Animation 1 started'})
-    if circle_color_p2 == 'green':
+        results.append({'status': 'Animation 1 started'})
+    elif circle_color_p1[0] != 'green':
+        results.append({'status': 'Animation 1 stopped'})
+        print(results)
+        print("look here")
+    if circle_color_p2[1] == 'green':
         # Here you can return some data if needed
         print("updating pump 2 status")
-        return jsonify({'status': 'Animation 2 started'})
+        results.append({'status': 'Animation 2 started'})
+    elif circle_color_p2[1] != 'green':
+        results.append({'status': 'Animation 2 stopped'})
+    return jsonify(results)
 
     
 
