@@ -1,15 +1,12 @@
 from flask import Flask, render_template, jsonify
 import time
-from Reading import read_plc_tag, update_circle_color, read_alarm_tags_all_pumps, update_alarm_tags_all_pumps
+from Reading import read_plc_tag, update_circle_color, update_alarm_tags_all_pumps
 from pylogix import PLC
 app = Flask(__name__)
 
-    
-#tags_to_read = ['tag1', 'tag2', 'tag3']
-
 @app.route('/')
 def index():
-    return render_template('index2.html')
+    return render_template('chiller_vacuum_ui.html')
 
 '''pump 1'''
 @app.route('/get_pump1vacuum_data')
@@ -27,14 +24,12 @@ def get_VACUUM_1_SEPARATOR_PRESSURE_data():
     seperator1_psi = read_plc_tag()[2]
     return jsonify({'seperator1_psi': seperator1_psi})
 
-
+'''Utilities'''
 @app.route('/get_circle_color')
 def get_circle_color():
     circle_colors_tuple = update_circle_color()
     circle_colors = circle_colors_tuple[0]
     return jsonify(circle_colors)
-   
-    
 
 @app.route('/check_animation_status')
 def check_animation_status():
@@ -55,8 +50,6 @@ def check_animation_status():
         print("updating pump 2 status to red")
     return jsonify(results)
 
-    
-
 @app.route('/get_pump2vacuum_data')
 def get_pump2vacuum_data():
     pump2vacuum = read_plc_tag()[1]
@@ -65,10 +58,6 @@ def get_pump2vacuum_data():
 if __name__ == '__main__':
     plc_ip_address = '172.16.21.12'
     app.run(debug=True)
-
-
-
-
 
 #The Graveyard
 '''@app.route('/get_plc_data')

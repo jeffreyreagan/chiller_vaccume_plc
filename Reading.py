@@ -57,7 +57,6 @@ def update_alarm_tags_all_pumps():
     pump1_alarm_comments={'VPUMP_1_B10[2].0':'Vacuum Xmtr Signal Failure Fault Latch','VPUMP_1_B10[2].1':'PSI Xmtr Signal Failure Fault Latch','VPUMP_1_B10[2].10':'test alarm active!'}
     pump1_alarm_tag_list = read_alarm_tags_all_pumps(pump1_alarm_tags)
     pump1_active_alarms = [pump1_alarm_comments[tag] for tag, value in pump1_alarm_tag_list.items() if value == 1]
-    pump2_alarm_tag_list = read_alarm_tags_all_pumps(pump2_alarm_tags)
     '''print(pump2_alarm_tag_list, pump1_alarm_tag_list)'''
     if any(value == 1 for value in pump1_alarm_tag_list.values()):
         print(pump1_active_alarms)
@@ -66,12 +65,10 @@ def update_alarm_tags_all_pumps():
     elif all(value == 0 for value in pump1_alarm_tag_list.values()):
         print("No alarm active")
         pump1alarmstatus = False
-
     else: 
-         print("Error connecting to PLC to be specific the alarm tags have not been fetched successfully")
+         print("Error connecting to PLC, to be specific the alarm tags have not been fetched successfully")
          pump1alarmstatus = None
     return pump1alarmstatus, pump1_active_alarms
-
 
 def update_circle_color():
     circle_colors = {'pump1color': '','pump2color': ''}  # Initialize colors
@@ -105,19 +102,9 @@ def update_circle_color():
               # Return colors after loop
     except Exception as e:
         print(f"An error occurred: {e}")
-    
-    
-
-
 
 if __name__ == "__main__":
     plc_ip_address = "172.16.21.12"
-
-# Function to read the tag and update SVG circle color
-
-
-
-
 
 #The Graveyard
 '''Still figuring out array data formatting     for tag in tags:
