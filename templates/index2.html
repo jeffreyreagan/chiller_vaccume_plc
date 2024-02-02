@@ -58,7 +58,7 @@
         updateCircleColor();
 
     // Call updateCircleColor() function every second
-        setInterval(updateCircleColor, 2000);
+        setInterval(updateCircleColor, 1000);
 </script>
 
 <svg width="250" height="400">
@@ -148,7 +148,7 @@
     
     
     <p>Vacuum at Pump 3: <span id="pump3vacuum"></span></p>
-    <!--Pump 2 UI-->
+    <!--Pump 3 UI-->
     <svg width="250" height="400">
         <!--Inlet Filter-->
             <rect x="75" y="20" width="100" height="50" stroke="black" fill="white"></rect>
@@ -224,8 +224,8 @@
       smallerCircle2.setAttribute('cy', newY);
     }
     // Example: Trigger the animation based on a boolean condition
-    let animation_state_p1 = 0;
-    let animation_state_p2 = 0;
+    animation_state_p1 = [];
+    animation_state_p2 = [];
     function startAnimation() {
        
             // Animate the circle  
@@ -264,12 +264,15 @@
         }
         // Function to stop the animation
     function stopAnimation() {
+        console.log("animation states before stopping should be 0 for pump called to stop",animation_state_p1,animation_state_p2)
+        if (animation_state_p1 == 0){;    
             clearInterval(interval1);
+            console.log("stopping animation 1")
+            checkAnimationStatus();}
+        if (animation_state_p2 == 0){;
             clearInterval(interval2)
-            console.log(interval1)
-            animation_state_p1 = 0;
-            animation_state_p2 = 0;
-            checkAnimationStatus(); // Stop the animation interval
+            console.log("stopping animation 2")
+            checkAnimationStatus();} // Stop the animation interval
         }
     function isAnimationRunning() {
             return animation_state_p1 !== 2, animation_state_p2 !== 2;
@@ -284,14 +287,18 @@
                         console.log("testing");
                         animation_state_p1 = 1;
                         startAnimation(); // Start the animation if it's not already running
-                    } else if (data[0].status === 'Animation 1 stopped') {
+                    } if (data[0].status === 'Animation 1 stopped') {
                         animation_state_p1 = 0;
                         stopAnimation(); // Stop the animation if it's running
                     } if (data[1].status === 'Animation 2 started' && animation_state_p2 !== 2) {
                         console.log("trying to start animation p_2");
                         animation_state_p2 = 1;
                         startAnimation();
-                    }
+                    } if (data[1].status === 'Animation 2 stopped'){
+                        console.log("should be stopping p2 animation");
+                        animation_state_p2 = 0;
+                        stopAnimation();}
+                
                 })
                 .catch(error => {
                     console.error('Error checking animation status:', error);

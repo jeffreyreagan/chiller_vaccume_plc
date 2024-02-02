@@ -41,19 +41,17 @@ def check_animation_status():
     circle_color_p1 = update_circle_color()
     circle_color_p2 = update_circle_color()
     if circle_color_p1[0] == 'green':
-        # Here you can return some data if needed
-        print("updating pump 1 status")
+        print("updating pump 1 status to green")
         results.append({'status': 'Animation 1 started'})
     elif circle_color_p1[0] != 'green':
         results.append({'status': 'Animation 1 stopped'})
-        print(results)
-        print("look here")
+        print("updating pump 1 status to red")
     if circle_color_p2[1] == 'green':
-        # Here you can return some data if needed
-        print("updating pump 2 status")
         results.append({'status': 'Animation 2 started'})
+        print("updating pump 2 status to green")
     elif circle_color_p2[1] != 'green':
         results.append({'status': 'Animation 2 stopped'})
+        print("updating pump 2 status to red")
     return jsonify(results)
 
     
