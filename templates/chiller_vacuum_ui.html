@@ -114,7 +114,10 @@
 </svg>
 </div>
 <div class="svg-container">
-<p>Vacuum at Pump 2: <span id="pump2vacuum"></span></p>
+    <p>Vacuum at Pump 2: <span id="pump2vacuum"></span></p>
+    <p>Seperator Pressure <span id="seperator2_psi"></span></p>
+    <p>Alarm: <span id="pump2alarmstatus"></span> Description:<span id="pump2_active_alarms"></span></p>
+
     <!--Pump 2 UI-->
     <svg width="250" height="400">
         <!--Inlet Filter-->
@@ -157,7 +160,10 @@
     </svg>
 </div>
 <div class="svg-container">
-    <p>Vacuum at Pump 3: <span id="pump3vacuum"></span></p>
+    <p>Vacuum at Pump 3: <span id="pump3vacuum"></span> </p>
+    <p>Seperator Pressure <span id="seperator3_psi"></span></p>
+    <p>Alarm: <span id="pump3alarmstatus"></span> Description:<span id="pump3_active_alarms"></span></p>
+
     <!--Pump 3 UI-->
     <svg width="250" height="400">
         <!--Inlet Filter-->
@@ -199,7 +205,98 @@
             <text x="25" y="95" fill="black">Exhaust</text>
     </svg>
 </div>
+<div class="svg-container">
+    <p>Vacuum at Pump 4: <span id="pump4vacuum"></span> </p>
+    <p>Seperator Pressure <span id="seperator4_psi"></span></p>
+    <p>Alarm: <span id="pump4alarmstatus"></span> Description:<span id="pump4_active_alarms"></span></p>
 
+    <!--Pump 3 UI-->
+    <svg width="250" height="400">
+        <!--Inlet Filter-->
+            <rect x="75" y="20" width="100" height="50" stroke="black" fill="white"></rect>
+            <rect x="60" y="45" width="15" height="7" stroke="black" fill="green"></rect>
+            <text x="90" y="40" fill="black">inlet filter</text>
+    
+        <!--Pipe 1 inlet-->
+            <polyline points="75,70 100,95 130,95 "
+            style="fill:none;stroke:black;stroke-width:1" />
+            <polyline points="100,70 110,80 141,80"
+            style="fill:none;stroke:black;stroke-width:1" />
+        <!--Pump-->
+            <circle cx="160" cy="110" r="35" stroke="black" fill="white" />
+            <circle id='pump4status'cx="160" cy="125" r="20" stroke="black" fill="green" />
+            <text x="140" y="100" fill="black">Pump</text>
+        <!--Pipe 2 orange pump to seperator-->
+            <rect x="195" y="105" width="10" height="5" stroke="black" fill="orange"></rect>
+            <rect x="205" y="102.5" width="25" height="10" stroke="black" fill="orange"></rect>
+            <rect x="210" y="80" width="15" height="25" stroke="black" fill="orange"></rect>
+            <rect x="230" y="105" width="10" height="5" stroke="black" fill="orange"></rect>
+            <rect x="235" y="105" width="5" height="50" stroke="black" fill="orange"></rect>
+        <!--Pipe 2 orange seperator to exhaust-->
+            <rect x="55" y="170" width="180" height="5" stroke="black" fill="orange"></rect>
+        <!--Radiator-->
+    
+            <rect x="200" y="140" width="40" height="40" stroke="black" fill="orange"></rect>
+            <circle cx="220" cy="160" r="20" stroke="black" fill="green"></circle>
+            <circle cx="220" cy="160" r="5" stroke="black" fill="green"></circle>
+            <ellipse cx="220" cy="160" rx="16" ry="12" stroke="black" fill="white" transform="rotate(90 300 300)" ></ellipse>
+            <!--pump valve-->
+            <rect x="110" y="90" width="15" height="2" stroke="black" fill="green"> </rect>
+    
+            <polyline points="75,70 100,95 130,95 "
+            style="fill:none;stroke:black;stroke-width:1" />
+    
+        <!--Exhaust-->
+            <ellipse cx="145" cy="550" rx="36" ry="22" stroke="black" fill="white" transform="rotate(90 300 300)" ></ellipse>
+            <text x="25" y="95" fill="black">Exhaust</text>
+    </svg>
+</div>
+<div class="svg-container">
+    <p>Vacuum at Pump 5: <span id="pump5vacuum"></span> </p>
+    <p>Seperator Pressure <span id="seperator5_psi"></span></p>
+    <p>Alarm: <span id="pump5alarmstatus"></span> Description:<span id="pump5_active_alarms"></span></p>
+
+    <!--Pump 3 UI-->
+    <svg width="250" height="400">
+        <!--Inlet Filter-->
+            <rect x="75" y="20" width="100" height="50" stroke="black" fill="white"></rect>
+            <rect x="60" y="45" width="15" height="7" stroke="black" fill="green"></rect>
+            <text x="90" y="40" fill="black">inlet filter</text>
+    
+        <!--Pipe 1 inlet-->
+            <polyline points="75,70 100,95 130,95 "
+            style="fill:none;stroke:black;stroke-width:1" />
+            <polyline points="100,70 110,80 141,80"
+            style="fill:none;stroke:black;stroke-width:1" />
+        <!--Pump-->
+            <circle cx="160" cy="110" r="35" stroke="black" fill="white" />
+            <circle id='pump5status'cx="160" cy="125" r="20" stroke="black" fill="green" />
+            <text x="140" y="100" fill="black">Pump</text>
+        <!--Pipe 2 orange pump to seperator-->
+            <rect x="195" y="105" width="10" height="5" stroke="black" fill="orange"></rect>
+            <rect x="205" y="102.5" width="25" height="10" stroke="black" fill="orange"></rect>
+            <rect x="210" y="80" width="15" height="25" stroke="black" fill="orange"></rect>
+            <rect x="230" y="105" width="10" height="5" stroke="black" fill="orange"></rect>
+            <rect x="235" y="105" width="5" height="50" stroke="black" fill="orange"></rect>
+        <!--Pipe 2 orange seperator to exhaust-->
+            <rect x="55" y="170" width="180" height="5" stroke="black" fill="orange"></rect>
+        <!--Radiator-->
+    
+            <rect x="200" y="140" width="40" height="40" stroke="black" fill="orange"></rect>
+            <circle cx="220" cy="160" r="20" stroke="black" fill="green"></circle>
+            <circle cx="220" cy="160" r="5" stroke="black" fill="green"></circle>
+            <ellipse cx="220" cy="160" rx="16" ry="12" stroke="black" fill="white" transform="rotate(90 300 300)" ></ellipse>
+            <!--pump valve-->
+            <rect x="110" y="90" width="15" height="2" stroke="black" fill="green"> </rect>
+    
+            <polyline points="75,70 100,95 130,95 "
+            style="fill:none;stroke:black;stroke-width:1" />
+    
+        <!--Exhaust-->
+            <ellipse cx="145" cy="550" rx="36" ry="22" stroke="black" fill="white" transform="rotate(90 300 300)" ></ellipse>
+            <text x="25" y="95" fill="black">Exhaust</text>
+    </svg>
+</div>
 
 
 
@@ -208,8 +305,14 @@
     // Get reference to the smaller circle
     const smallerCircle1 = document.getElementById('pump1status');
     const smallerCircle2 = document.getElementById('pump2status');
+    const smallerCircle3 = document.getElementById('pump3status');
+    const smallerCircle4 = document.getElementById('pump4status');
+    const smallerCircle5 = document.getElementById('pump5status');
     let interval1;
     let interval2;
+    let interval3;
+    let interval4;
+    let interval5;
     // Function to animate the circle around the larger circle
     function animateCircle1(angle1) {
       // Calculate the new position of the smaller circle
@@ -233,9 +336,45 @@
       smallerCircle2.setAttribute('cx', newX);
       smallerCircle2.setAttribute('cy', newY);
     }
+    function animateCircle3(angle3) {
+      // Calculate the new position of the smaller circle
+      const centerX = 160; // x-coordinate of the center of the larger circle
+      const centerY = 110; // y-coordinate of the center of the larger circle
+      const radius = 15; // radius of the larger circle
+      const newX = centerX + radius * Math.cos(angle3);
+      const newY = centerY + radius * Math.sin(angle3);
+      // Update the position of the smaller circle
+      smallerCircle3.setAttribute('cx', newX);
+      smallerCircle3.setAttribute('cy', newY);
+    }
+    function animateCircle4(angle4) {
+      // Calculate the new position of the smaller circle
+      const centerX = 160; // x-coordinate of the center of the larger circle
+      const centerY = 110; // y-coordinate of the center of the larger circle
+      const radius = 15; // radius of the larger circle
+      const newX = centerX + radius * Math.cos(angle4);
+      const newY = centerY + radius * Math.sin(angle4);
+      // Update the position of the smaller circle
+      smallerCircle4.setAttribute('cx', newX);
+      smallerCircle4.setAttribute('cy', newY);
+    }
+    function animateCircle5(angle5) {
+      // Calculate the new position of the smaller circle
+      const centerX = 160; // x-coordinate of the center of the larger circle
+      const centerY = 110; // y-coordinate of the center of the larger circle
+      const radius = 15; // radius of the larger circle
+      const newX = centerX + radius * Math.cos(angle5);
+      const newY = centerY + radius * Math.sin(angle5);
+      // Update the position of the smaller circle
+      smallerCircle5.setAttribute('cx', newX);
+      smallerCircle5.setAttribute('cy', newY);
+    }
     // Example: Trigger the animation based on a boolean condition
     animation_state_p1 = [];
     animation_state_p2 = [];
+    animation_state_p3 = [];
+    animation_state_p4 = [];
+    animation_state_p5 = [];
     function startAnimation() {
        
             // Animate the circle  
@@ -247,28 +386,63 @@
                 interval1 = setInterval(() => {
                 // Increment angle for animation
                     angle1 += 0.05; // Adjust the speed of animation by changing the increment
-
                 // Update circle position
                     animateCircle1(angle1);
                 }, 50);
-                 
                 animation_state_p1 = 2;
                 checkAnimationStatus();// Adjust the interval for smoother animation
         }
         if (animation_state_p2 == 1) {
              // Exit function if animation is already running
-         
             console.log("def starting p2 animation")
             let angle2 = 0;
                 interval2 = setInterval(() => {
                 // Increment angle for animation
                     angle2 += 0.05; // Adjust the speed of animation by changing the increment
-
                 // Update circle position
                     animateCircle2(angle2);
                 }, 50);
-                 
                 animation_state_p2 = 2;
+                checkAnimationStatus();// Adjust the interval for smoother animation
+        }
+        if (animation_state_p3 == 1) {
+            ; // Exit function if animation is already running
+         
+            console.log("def starting p3 animation")
+            let angle3 = 0;
+                interval3 = setInterval(() => {
+                // Increment angle for animation
+                    angle3 += 0.05; // Adjust the speed of animation by changing the increment
+                // Update circle position
+                    animateCircle3(angle3);
+                }, 50);
+                animation_state_p3 = 2;
+                checkAnimationStatus();// Adjust the interval for smoother animation
+        }
+        if (animation_state_p4 == 1) {
+             // Exit function if animation is already running
+            console.log("def starting p4 animation")
+            let angle4 = 0;
+                interval4 = setInterval(() => {
+                // Increment angle for animation
+                    angle4 += 0.05; // Adjust the speed of animation by changing the increment
+                // Update circle position
+                    animateCircle4(angle4);
+                }, 50);
+                animation_state_p4 = 2;
+                checkAnimationStatus();// Adjust the interval for smoother animation
+        }
+        if (animation_state_p5 == 1) {
+             // Exit function if animation is already running
+            console.log("def starting p5 animation")
+            let angle5 = 0;
+                interval5 = setInterval(() => {
+                // Increment angle for animation
+                    angle5 += 0.05; // Adjust the speed of animation by changing the increment
+                // Update circle position
+                    animateCircle5(angle5);
+                }, 50);
+                animation_state_p5 = 2;
                 checkAnimationStatus();// Adjust the interval for smoother animation
         }
         }
@@ -283,9 +457,21 @@
             clearInterval(interval2)
             console.log("stopping animation 2")
             checkAnimationStatus();} // Stop the animation interval
+        if (animation_state_p3 == 0){;    
+            clearInterval(interval3);
+            console.log("stopping animation 3")
+            checkAnimationStatus();}
+        if (animation_state_p4 == 0){;
+            clearInterval(interval4)
+            console.log("stopping animation 4")
+            checkAnimationStatus();}
+        if (animation_state_p5 == 0){;
+            clearInterval(interval5)
+            console.log("stopping animation 5")
+            checkAnimationStatus();}
         }
     function isAnimationRunning() {
-            return animation_state_p1 !== 2, animation_state_p2 !== 2;
+            return animation_state_p1 !== 2, animation_state_p2 !== 2, animation_state_p3 !== 2, animation_state_p4 !== 2, animation_state_p5 !== 2;
 }
         // Function to check the animation status
     function checkAnimationStatus() {
@@ -307,6 +493,29 @@
                     } if (data[1].status === 'Animation 2 stopped'){
                         console.log("should be stopping p2 animation");
                         animation_state_p2 = 0;
+                        stopAnimation();
+                    }if (data[2].status === 'Animation 3 started' && animation_state_p3 !== 2) {
+                        console.log("testing");
+                        animation_state_p3 = 1;
+                        startAnimation(); // Start the animation if it's not already running
+                    } if (data[2].status === 'Animation 2 stopped') {
+                        animation_state_p2 = 0;
+                        stopAnimation(); // Stop the animation if it's running
+                    } if (data[3].status === 'Animation 4 started' && animation_state_p4 !== 2) {
+                        console.log("trying to start animation p_4");
+                        animation_state_p4 = 1;
+                        startAnimation();
+                    } if (data[3].status === 'Animation 4 stopped'){
+                        console.log("should be stopping p4 animation");
+                        animation_state_p4 = 0;
+                        stopAnimation();
+                    }if (data[4].status === 'Animation 5 started' && animation_state_p5 !== 2) {
+                        console.log("trying to start animation p_5");
+                        animation_state_p5 = 1;
+                        startAnimation();
+                    } if (data[4].status === 'Animation 5 stopped'){
+                        console.log("should be stopping p5 animation");
+                        animation_state_p5 = 0;
                         stopAnimation();}
                 
                 })
