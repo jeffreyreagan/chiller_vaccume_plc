@@ -30,26 +30,27 @@ def get_VACUUM_1_SEPARATOR_PRESSURE_data():
 
 @app.route('/get_circle_color')
 def get_circle_color():
-    circle_color_p1 = update_circle_color()
-    circle_color_p2 = update_circle_color()
-    return circle_color_p1 and circle_color_p2
+    circle_colors_tuple = update_circle_color()
+    circle_colors = circle_colors_tuple[0]
+    return jsonify(circle_colors)
+   
     
 
 @app.route('/check_animation_status')
 def check_animation_status():
     results = []
-    circle_color_p1 = update_circle_color()
-    circle_color_p2 = update_circle_color()
-    if circle_color_p1[0] == 'green':
+    circle_colors_tuple = update_circle_color()
+    circle_colors = circle_colors_tuple[0]
+    if circle_colors['pump1color'] == 'green':
         print("updating pump 1 status to green")
         results.append({'status': 'Animation 1 started'})
-    elif circle_color_p1[0] != 'green':
+    elif circle_colors['pump1color'] != 'green':
         results.append({'status': 'Animation 1 stopped'})
         print("updating pump 1 status to red")
-    if circle_color_p2[1] == 'green':
+    if circle_colors['pump2color'] == 'green':
         results.append({'status': 'Animation 2 started'})
         print("updating pump 2 status to green")
-    elif circle_color_p2[1] != 'green':
+    elif circle_colors['pump2color'] != 'green':
         results.append({'status': 'Animation 2 stopped'})
         print("updating pump 2 status to red")
     return jsonify(results)

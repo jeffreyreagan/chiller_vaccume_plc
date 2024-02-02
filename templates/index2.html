@@ -48,9 +48,10 @@
 
         function updateCircleColor() {
             fetch('/get_circle_color')
-            .then(response => response.text())
-            .then(color => {
-                document.getElementById('pump1status').setAttribute('fill', color);
+            .then(response => response.json())
+            .then(circle_colors => {
+                document.getElementById('pump1status').setAttribute('fill', circle_colors.pump1color);
+                document.getElementById('pump2status').setAttribute('fill', circle_colors.pump2color);
             });
         }
 

@@ -74,8 +74,7 @@ def update_alarm_tags_all_pumps():
 
 
 def update_circle_color():
-    circle_color_p1 = ''  # Initialize colors
-    circle_color_p2 = ''
+    circle_colors = {'pump1color': '','pump2color': ''}  # Initialize colors
     try:
         with PLC() as comm:
             comm.IPAddress = '172.16.21.12' 
@@ -88,25 +87,21 @@ def update_circle_color():
                         pump_1_status_value = result.Value
                         print(result.Value)
                         if pump_1_status_value == 3:
-                            circle_color_p1 = 'green'
-                            print("here is p1_color-", circle_color_p1)
+                            circle_colors['pump1color'] = 'green'
+                            
                         elif pump_1_status_value == 2:
-                            circle_color_p1 = 'red'
-                            print("here is p1_color-", circle_color_p1)
-                    elif result.TagName == 'VACUUM_2_STATUS':
+                            circle_colors['pump1color'] = 'red'
+                    if result.TagName == 'VACUUM_2_STATUS':
                         pump_2_status_value = result.Value
-                        print(result.TagName)
                         if pump_2_status_value == 3:
-                            circle_color_p2 = 'green'
-                            print("here is p2_color-", circle_color_p2)
+                            circle_colors['pump2color'] = 'green'
                         elif pump_2_status_value == 2:
-                            circle_color_p2 = 'red'
-                            print("here is p2_color-", circle_color_p2)
+                            circle_colors['pump2color'] = 'red'
                 else:
                     print(f"Failed to read tag '{result.TagName}'")
             time.sleep(1)
             print("returning pump colors")
-            return circle_color_p1, circle_color_p2
+            return circle_colors , pump_1_status_value, pump_2_status_value
               # Return colors after loop
     except Exception as e:
         print(f"An error occurred: {e}")
