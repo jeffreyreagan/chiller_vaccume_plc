@@ -60,6 +60,7 @@ def get_VACUUM_3_SEPARATOR_PRESSURE_data():
 @app.route('/get_pump4vacuum_data')
 def get_pump4vacuum_data():
     pump4vacuum = read_plc_tag()[6]
+    
     return jsonify(pump4vacuum = pump4vacuum)
 
 @app.route('/get_pump4vacuum_alarm_status')

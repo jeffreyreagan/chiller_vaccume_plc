@@ -18,7 +18,6 @@ def read_plc_tag():
                 seperator4_psi = None
                 seperator5_psi = None
                 results = comm.Read(tags)
-                print(results)
                 for result in results:
                     if result.Status == 'Success':
                         if result.TagName == 'VACUUM_1_VACUUM':
@@ -62,7 +61,7 @@ def read_plc_tag():
                             seperator5_psi_formatted = "{:.2f}".format(result.Value)
                             seperator5_psi = str(seperator5_psi_formatted) + " PSI"
                         
-                return pump1vacuum, pump2vacuum, pump3vacuum, pump4vacuum, pump5vacuum, seperator1_psi, seperator2_psi, seperator3_psi, seperator4_psi, seperator5_psi
+                return pump1vacuum, seperator1_psi, pump2vacuum, seperator2_psi, pump3vacuum, seperator3_psi, pump4vacuum, seperator4_psi, pump5vacuum, seperator5_psi
         except Exception as e:
                     print(f"An error occurred: {e}")
 
@@ -89,12 +88,12 @@ def read_alarm_tags_all_pumps(tag_names):
     return None
 def update_alarm_tags_all_pumps():
     pump1_alarm_tags = ['VPUMP_1_B10[2].0', 'VPUMP_1_B10[2].1', 'VPUMP_1_B10[2].2', 'VPUMP_1_B10[2].3', 'VPUMP_1_B10[2].4', 'VPUMP_1_B10[2].5', 'VPUMP_1_B10[2].6', 'VPUMP_1_B10[2].7', 'VPUMP_1_B10[2].8', 'VPUMP_1_B10[2].9', 'VPUMP_1_B10[2].10', 'VPUMP_1_B10[2].11', 'VPUMP_1_B10[2].12', 'VPUMP_1_B10[2].13', 'VPUMP_1_B10[2].14', 'VPUMP_1_B10[2].15']
-    pump2_alarm_tags= ['VPUMP_2_B10[2].0', 'VPUMP_2_B10[2].1', 'VPUMP_2_B10[2].2', 'VPUMP_2_B10[2].3', 'VPUMP_2_B10[2].4', 'VPUMP_2_B10[2].5', 'VPUMP_2_B10[2].6', 'VPUMP_2_B10[2].7', 'VPUMP_2_B10[2].8', 'VPUMP_2_B10[2].9', 'VPUMP_2_B10[2].10', 'VPUMP_2_B10[2].11', 'VPUMP_2_B10[2].12', 'VPUMP_2_B10[2].13', 'VPUMP_2_B10[2].14', 'VPUMP_2_B10[2].15']
+    pump2_alarm_tags= ['VPUMP_2_B10[3].0', 'VPUMP_2_B10[2].1', 'VPUMP_2_B10[2].2', 'VPUMP_2_B10[2].3', 'VPUMP_2_B10[2].4', 'VPUMP_2_B10[2].5', 'VPUMP_2_B10[2].6', 'VPUMP_2_B10[2].7', 'VPUMP_2_B10[2].8', 'VPUMP_2_B10[2].9', 'VPUMP_2_B10[2].10', 'VPUMP_2_B10[2].11', 'VPUMP_2_B10[2].12', 'VPUMP_2_B10[2].13', 'VPUMP_2_B10[2].14', 'VPUMP_2_B10[2].15']
     pump3_alarm_tags= ['VPUMP_3_B10[2].0', 'VPUMP_3_B10[2].1', 'VPUMP_3_B10[2].2', 'VPUMP_3_B10[2].3', 'VPUMP_3_B10[2].4', 'VPUMP_3_B10[2].5', 'VPUMP_3_B10[2].6', 'VPUMP_3_B10[2].7', 'VPUMP_3_B10[2].8', 'VPUMP_3_B10[2].9', 'VPUMP_3_B10[2].10', 'VPUMP_3_B10[2].11', 'VPUMP_3_B10[2].12', 'VPUMP_3_B10[2].13', 'VPUMP_3_B10[2].14', 'VPUMP_3_B10[2].15']
     pump4_alarm_tags= ['VPUMP_4_B10[2].0', 'VPUMP_4_B10[2].1', 'VPUMP_4_B10[2].2', 'VPUMP_4_B10[2].3', 'VPUMP_4_B10[2].4', 'VPUMP_4_B10[2].5', 'VPUMP_4_B10[2].6', 'VPUMP_4_B10[2].7', 'VPUMP_4_B10[2].8', 'VPUMP_4_B10[2].9', 'VPUMP_4_B10[2].10', 'VPUMP_4_B10[2].11', 'VPUMP_4_B10[2].12', 'VPUMP_4_B10[2].13', 'VPUMP_4_B10[2].14', 'VPUMP_4_B10[2].15']
     pump5_alarm_tags= ['VPUMP_5_B10[2].0', 'VPUMP_5_B10[2].1', 'VPUMP_5_B10[2].2', 'VPUMP_5_B10[2].3', 'VPUMP_5_B10[2].4', 'VPUMP_5_B10[2].5', 'VPUMP_5_B10[2].6', 'VPUMP_5_B10[2].7', 'VPUMP_5_B10[2].8', 'VPUMP_5_B10[2].9', 'VPUMP_5_B10[2].10', 'VPUMP_5_B10[2].11', 'VPUMP_5_B10[2].12', 'VPUMP_5_B10[2].13', 'VPUMP_5_B10[2].14', 'VPUMP_5_B10[2].15']
     pump1_alarm_comments={'VPUMP_1_B10[2].0':'Vacuum Xmtr Signal Failure Fault Latch','VPUMP_1_B10[2].1':'PSI Xmtr Signal Failure Fault Latch','VPUMP_1_B10[2].10':'test alarm active!'}
-    pump2_alarm_comments={'VPUMP_2_B10[2].0':'Vacuum Xmtr Signal Failure Fault Latch','VPUMP_2_B10[2].1':'PSI Xmtr Signal Failure Fault Latch','VPUMP_2_B10[2].10':'test alarm active!'}
+    pump2_alarm_comments={'VPUMP_2_B10[3].0':'testing testing testing','VPUMP_2_B10[2].1':'PSI Xmtr Signal Failure Fault Latch','VPUMP_2_B10[2].10':'test alarm active!'}
     pump3_alarm_comments={'VPUMP_3_B10[2].0':'Vacuum Xmtr Signal Failure Fault Latch','VPUMP_3_B10[2].1':'PSI Xmtr Signal Failure Fault Latch','VPUMP_3_B10[2].10':'test alarm active!'}
     pump4_alarm_comments={'VPUMP_4_B10[2].0':'Vacuum Xmtr Signal Failure Fault Latch','VPUMP_4_B10[2].1':'PSI Xmtr Signal Failure Fault Latch','VPUMP_4_B10[2].10':'test alarm active!'}
     pump5_alarm_comments={'VPUMP_5_B10[2].0':'Vacuum Xmtr Signal Failure Fault Latch','VPUMP_5_B10[2].1':'PSI Xmtr Signal Failure Fault Latch','VPUMP_5_B10[2].10':'test alarm active!'}
@@ -113,42 +112,42 @@ def update_alarm_tags_all_pumps():
 
     if any(value == 1 for value in pump1_alarm_tag_list.values()):
         print(pump1_active_alarms)
-        print("ALARM ACTIVE")
+        print("ALARM ACTIVE Pump 1")
         pump1alarmstatus = True 
     elif all(value == 0 for value in pump1_alarm_tag_list.values()):
-        print("No alarm active")
+        print("No alarm active Pump 1")
         pump1alarmstatus = False
     if any(value == 1 for value in pump2_alarm_tag_list.values()):
         print(pump2_active_alarms)
-        print("ALARM ACTIVE")
+        print("ALARM ACTIVE Pump 2")
         pump2alarmstatus = True 
     elif all(value == 0 for value in pump2_alarm_tag_list.values()):
-        print("No alarm active")
+        print("No alarm active Pump 2")
         pump2alarmstatus = False
     if any(value == 1 for value in pump3_alarm_tag_list.values()):
         print(pump3_active_alarms)
-        print("ALARM ACTIVE")
+        print("ALARM ACTIVE Pump 3")
         pump3alarmstatus = True 
     elif all(value == 0 for value in pump3_alarm_tag_list.values()):
-        print("No alarm active")
+        print("No alarm active Pump 3")
         pump3alarmstatus = False
     if any(value == 1 for value in pump4_alarm_tag_list.values()):
         print(pump4_active_alarms)
-        print("ALARM ACTIVE")
+        print("ALARM ACTIVE Pump 4")
         pump4alarmstatus = True 
     elif all(value == 0 for value in pump4_alarm_tag_list.values()):
-        print("No alarm active")
+        print("No alarm active Pump 4")
         pump4alarmstatus = False
     if any(value == 1 for value in pump5_alarm_tag_list.values()):
         print(pump5_active_alarms)
-        print("ALARM ACTIVE")
+        print("ALARM ACTIVE Pump 5")
         pump5alarmstatus = True 
     elif all(value == 0 for value in pump5_alarm_tag_list.values()):
-        print("No alarm active")
+        print("No alarm active Pump 5")
         pump5alarmstatus = False
     else: 
-         print("Error connecting to PLC, to be specific the alarm tags have not been fetched successfully")
-         pump1alarmstatus = None
+         print("Error connecting to PLC")
+
     pumpmasterstatus={
     'pump1status':{'alarm_status': pump1alarmstatus, 'active_alarms': pump1_active_alarms},
     'pump2status':{'alarm_status': pump2alarmstatus, 'active_alarms': pump2_active_alarms},
@@ -202,8 +201,8 @@ def update_circle_color():
                 else:
                     print(f"Failed to read tag '{result.TagName}'")
             time.sleep(1)
-            print("returning pump colors")
-            return circle_colors , pump_1_status_value, pump_2_status_value
+            print("returning pump statuses")
+            return circle_colors , pump_1_status_value, pump_2_status_value, pump_3_status_value, pump_4_status_value, pump_5_status_value
               # Return colors after loop
     except Exception as e:
         print(f"An error occurred: {e}")
