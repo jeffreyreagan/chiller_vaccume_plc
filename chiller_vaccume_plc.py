@@ -11,65 +11,76 @@ def index():
 '''pump 1'''
 @app.route('/get_pump1vacuum_data')
 def get_pump1vacuum_data():
+    time.sleep(1)
     pump1vacuum = read_plc_tag()[0]
     return jsonify({'pump1vacuum': pump1vacuum})
 
 @app.route('/get_pump1vacuum_alarm_status')
 def get_pump1vacuum_alarm_status():
+    time.sleep(1)
     pumpmasterstatus = update_alarm_tags_all_pumps()
     return jsonify(pumpmasterstatus['pump1status'])
     
 @app.route('/get_VACUUM_1_SEPARATOR_PRESSURE_data')
 def get_VACUUM_1_SEPARATOR_PRESSURE_data():
+    time.sleep(1)
     seperator1_psi = read_plc_tag()[1]
     return jsonify({'seperator1_psi': seperator1_psi})
 
 '''pump2'''
 @app.route('/get_pump2vacuum_data')
 def get_pump2vacuum_data():
+    time.sleep(1)
     pump2vacuum = read_plc_tag()[2]
     return jsonify(pump2vacuum = pump2vacuum)
 
 @app.route('/get_pump2vacuum_alarm_status')
 def get_pump2vacuum_alarm_status():
+    time.sleep(1)
     pumpmasterstatus = update_alarm_tags_all_pumps()
     return jsonify(pumpmasterstatus['pump2status'])
 
 @app.route('/get_VACUUM_2_SEPARATOR_PRESSURE_data')
 def get_VACUUM_2_SEPARATOR_PRESSURE_data():
+    time.sleep(1)
     seperator2_psi = read_plc_tag()[3]
     return jsonify({'seperator2_psi': seperator2_psi})
 
 '''pump3'''
 @app.route('/get_pump3vacuum_data')
 def get_pump3vacuum_data():
+    time.sleep(1)
     pump3vacuum = read_plc_tag()[4]
     return jsonify(pump3vacuum = pump3vacuum)
 
 @app.route('/get_pump3vacuum_alarm_status')
 def get_pump3vacuum_alarm_status():
+    time.sleep(1)
     pumpmasterstatus = update_alarm_tags_all_pumps()
     return jsonify(pumpmasterstatus['pump3status'])
 
 @app.route('/get_VACUUM_3_SEPARATOR_PRESSURE_data')
 def get_VACUUM_3_SEPARATOR_PRESSURE_data():
+    time.sleep(1)
     seperator3_psi = read_plc_tag()[5]
     return jsonify({'seperator3_psi': seperator3_psi})
 
 '''pump4'''
 @app.route('/get_pump4vacuum_data')
 def get_pump4vacuum_data():
-    pump4vacuum = read_plc_tag()[6]
-    
+    time.sleep(1)
+    pump4vacuum = read_plc_tag()[6]  
     return jsonify(pump4vacuum = pump4vacuum)
 
 @app.route('/get_pump4vacuum_alarm_status')
 def get_pump4vacuum_alarm_status():
+    time.sleep(1)
     pumpmasterstatus = update_alarm_tags_all_pumps()
     return jsonify(pumpmasterstatus['pump4status'])
 
 @app.route('/get_VACUUM_4_SEPARATOR_PRESSURE_data')
 def get_VACUUM_4_SEPARATOR_PRESSURE_data():
+    time.sleep(1)
     seperator4_psi = read_plc_tag()[7]
     return jsonify({'seperator4_psi': seperator4_psi})
 
@@ -77,16 +88,19 @@ def get_VACUUM_4_SEPARATOR_PRESSURE_data():
 '''pump5'''
 @app.route('/get_pump5vacuum_data')
 def get_pump5vacuum_data():
+    time.sleep(1)
     pump5vacuum = read_plc_tag()[8]
     return jsonify(pump5vacuum = pump5vacuum)
 
 @app.route('/get_pump5vacuum_alarm_status')
 def get_pump5vacuum_alarm_status():
+    time.sleep(1)
     pumpmasterstatus = update_alarm_tags_all_pumps()
     return jsonify(pumpmasterstatus['pump5status'])
 
 @app.route('/get_VACUUM_5_SEPARATOR_PRESSURE_data')
 def get_VACUUM_5_SEPARATOR_PRESSURE_data():
+    time.sleep(1)
     seperator5_psi = read_plc_tag()[9]
     return jsonify({'seperator5_psi': seperator5_psi})
 
@@ -144,3 +158,16 @@ def get_plc_data():
     data_with_datatypes = plc_comm.read_tags_with_datatypes(tags_to_read)
     formatted_data = [{'name': entry['name'], 'value': entry['value'], 'datatype': entry['datatype']} for entry in data_with_datatypes]
     return jsonify(formatted_data)'''
+
+
+'''add lead lag states to text,
+display state as yellow when not alarmed but pump stopped,
+only display red as alarmed,
+configure pump inlet valves,
+make exceptions for fail to connect to plc,
+add ui for failure to connect
+COMMENT,,VPUMP_1_N13,"Pump 1 Lead/Lag Status | 0=Lead, 1=Lag1, 2=Lag2",,"VPUMP_1_N13[21]"
+COMMENT,,VPUMP_1_B10,"Pump Inlet Valve Temp Control Latch (ON to Enable Open)",,"VPUMP_1_B10[3].0"
+COMMENT,,VPUMP_1_B10,"Pump Inlet Valve Vac Control Latch (ON to Enable Open)",,"VPUMP_1_B10[3].1"
+COMMENT,,VPUMP_1_B10,"Pump Inlet Valve Sep Back PSI Control Latch (ON to Enable Open)",,"VPUMP_1_B10[3].2"
+'''

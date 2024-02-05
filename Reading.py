@@ -1,6 +1,9 @@
 from pylogix import PLC
 import time
 # Function to read the PLC tags for vacuum and seperator pressure and return the values in a readable format
+
+print("Does this print once?")
+
 def read_plc_tag():
         try:
             with PLC() as comm:
@@ -17,6 +20,7 @@ def read_plc_tag():
                 seperator3_psi = None
                 seperator4_psi = None
                 seperator5_psi = None
+                time.sleep(1)
                 results = comm.Read(tags)
                 for result in results:
                     if result.Status == 'Success':
@@ -70,7 +74,7 @@ def read_alarm_tags_all_pumps(tag_names):
         with PLC() as comm:
             comm.IPAddress = '172.16.21.12'  # Replace with your PLC's IP address
             comm.ProcessorSlot = 0  # Replace with your processor slot if needed
-            
+            time.sleep(1)
             results = comm.Read(tag_names)
 
             tag_values = {}
@@ -88,12 +92,12 @@ def read_alarm_tags_all_pumps(tag_names):
     return None
 def update_alarm_tags_all_pumps():
     pump1_alarm_tags = ['VPUMP_1_B10[2].0', 'VPUMP_1_B10[2].1', 'VPUMP_1_B10[2].2', 'VPUMP_1_B10[2].3', 'VPUMP_1_B10[2].4', 'VPUMP_1_B10[2].5', 'VPUMP_1_B10[2].6', 'VPUMP_1_B10[2].7', 'VPUMP_1_B10[2].8', 'VPUMP_1_B10[2].9', 'VPUMP_1_B10[2].10', 'VPUMP_1_B10[2].11', 'VPUMP_1_B10[2].12', 'VPUMP_1_B10[2].13', 'VPUMP_1_B10[2].14', 'VPUMP_1_B10[2].15']
-    pump2_alarm_tags= ['VPUMP_2_B10[3].0', 'VPUMP_2_B10[2].1', 'VPUMP_2_B10[2].2', 'VPUMP_2_B10[2].3', 'VPUMP_2_B10[2].4', 'VPUMP_2_B10[2].5', 'VPUMP_2_B10[2].6', 'VPUMP_2_B10[2].7', 'VPUMP_2_B10[2].8', 'VPUMP_2_B10[2].9', 'VPUMP_2_B10[2].10', 'VPUMP_2_B10[2].11', 'VPUMP_2_B10[2].12', 'VPUMP_2_B10[2].13', 'VPUMP_2_B10[2].14', 'VPUMP_2_B10[2].15']
+    pump2_alarm_tags= ['VPUMP_2_B10[2].0', 'VPUMP_2_B10[2].1', 'VPUMP_2_B10[2].2', 'VPUMP_2_B10[2].3', 'VPUMP_2_B10[2].4', 'VPUMP_2_B10[2].5', 'VPUMP_2_B10[2].6', 'VPUMP_2_B10[2].7', 'VPUMP_2_B10[2].8', 'VPUMP_2_B10[2].9', 'VPUMP_2_B10[2].10', 'VPUMP_2_B10[2].11', 'VPUMP_2_B10[2].12', 'VPUMP_2_B10[2].13', 'VPUMP_2_B10[2].14', 'VPUMP_2_B10[2].15']
     pump3_alarm_tags= ['VPUMP_3_B10[2].0', 'VPUMP_3_B10[2].1', 'VPUMP_3_B10[2].2', 'VPUMP_3_B10[2].3', 'VPUMP_3_B10[2].4', 'VPUMP_3_B10[2].5', 'VPUMP_3_B10[2].6', 'VPUMP_3_B10[2].7', 'VPUMP_3_B10[2].8', 'VPUMP_3_B10[2].9', 'VPUMP_3_B10[2].10', 'VPUMP_3_B10[2].11', 'VPUMP_3_B10[2].12', 'VPUMP_3_B10[2].13', 'VPUMP_3_B10[2].14', 'VPUMP_3_B10[2].15']
     pump4_alarm_tags= ['VPUMP_4_B10[2].0', 'VPUMP_4_B10[2].1', 'VPUMP_4_B10[2].2', 'VPUMP_4_B10[2].3', 'VPUMP_4_B10[2].4', 'VPUMP_4_B10[2].5', 'VPUMP_4_B10[2].6', 'VPUMP_4_B10[2].7', 'VPUMP_4_B10[2].8', 'VPUMP_4_B10[2].9', 'VPUMP_4_B10[2].10', 'VPUMP_4_B10[2].11', 'VPUMP_4_B10[2].12', 'VPUMP_4_B10[2].13', 'VPUMP_4_B10[2].14', 'VPUMP_4_B10[2].15']
     pump5_alarm_tags= ['VPUMP_5_B10[2].0', 'VPUMP_5_B10[2].1', 'VPUMP_5_B10[2].2', 'VPUMP_5_B10[2].3', 'VPUMP_5_B10[2].4', 'VPUMP_5_B10[2].5', 'VPUMP_5_B10[2].6', 'VPUMP_5_B10[2].7', 'VPUMP_5_B10[2].8', 'VPUMP_5_B10[2].9', 'VPUMP_5_B10[2].10', 'VPUMP_5_B10[2].11', 'VPUMP_5_B10[2].12', 'VPUMP_5_B10[2].13', 'VPUMP_5_B10[2].14', 'VPUMP_5_B10[2].15']
     pump1_alarm_comments={'VPUMP_1_B10[2].0':'Vacuum Xmtr Signal Failure Fault Latch','VPUMP_1_B10[2].1':'PSI Xmtr Signal Failure Fault Latch','VPUMP_1_B10[2].10':'test alarm active!'}
-    pump2_alarm_comments={'VPUMP_2_B10[3].0':'testing testing testing','VPUMP_2_B10[2].1':'PSI Xmtr Signal Failure Fault Latch','VPUMP_2_B10[2].10':'test alarm active!'}
+    pump2_alarm_comments={'VPUMP_2_B10[2].0':'Vacuum Xmtr Signal Failure Fault Latch','VPUMP_2_B10[2].1':'PSI Xmtr Signal Failure Fault Latch','VPUMP_2_B10[2].10':'test alarm active!'}
     pump3_alarm_comments={'VPUMP_3_B10[2].0':'Vacuum Xmtr Signal Failure Fault Latch','VPUMP_3_B10[2].1':'PSI Xmtr Signal Failure Fault Latch','VPUMP_3_B10[2].10':'test alarm active!'}
     pump4_alarm_comments={'VPUMP_4_B10[2].0':'Vacuum Xmtr Signal Failure Fault Latch','VPUMP_4_B10[2].1':'PSI Xmtr Signal Failure Fault Latch','VPUMP_4_B10[2].10':'test alarm active!'}
     pump5_alarm_comments={'VPUMP_5_B10[2].0':'Vacuum Xmtr Signal Failure Fault Latch','VPUMP_5_B10[2].1':'PSI Xmtr Signal Failure Fault Latch','VPUMP_5_B10[2].10':'test alarm active!'}
@@ -164,6 +168,7 @@ def update_circle_color():
             comm.IPAddress = '172.16.21.12' 
             comm.ProcessorSlot = 0  
             tags = ['VACUUM_1_STATUS','VACUUM_2_STATUS', 'VACUUM_3_STATUS','VACUUM_4_STATUS', 'VACUUM_5_STATUS']
+            time.sleep(1)
             results = comm.Read(tags)
             for result in results:
                 if result.Status == 'Success':
@@ -200,6 +205,7 @@ def update_circle_color():
                             circle_colors['pump5color'] = 'red'
                 else:
                     print(f"Failed to read tag '{result.TagName}'")
+                    break
             time.sleep(1)
             print("returning pump statuses")
             return circle_colors , pump_1_status_value, pump_2_status_value, pump_3_status_value, pump_4_status_value, pump_5_status_value

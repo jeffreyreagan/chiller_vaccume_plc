@@ -36,7 +36,6 @@ $(document).ready(function() {
         $.getJSON('/get_pump2vacuum_alarm_status', function(data) {
             $('#pump2alarmstatus').text(data.alarm_status);
         });
-        console.log(pump2alarmstatus)
     }
     updatealarmstatuspump2();
     setInterval(updatealarmstatuspump2, 2000);
