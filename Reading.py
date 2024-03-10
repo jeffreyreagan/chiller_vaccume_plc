@@ -68,152 +68,110 @@ def read_plc_tag():
                 return pump1vacuum, seperator1_psi, pump2vacuum, seperator2_psi, pump3vacuum, seperator3_psi, pump4vacuum, seperator4_psi, pump5vacuum, seperator5_psi
         except Exception as e:
                     print(f"An error occurred: {e}")
+import random
 
 def read_alarm_tags_all_pumps(tag_names):
     try:
-        with PLC() as comm:
-            comm.IPAddress = '172.16.21.12'  # Replace with your PLC's IP address
-            comm.ProcessorSlot = 0  # Replace with your processor slot if needed
-            time.sleep(1)
-            results = comm.Read(tag_names)
-
-            tag_values = {}
-            for result in results:
-                if result.Status == 'Success':
-                    tag_values[result.TagName] = result.Value
-                else:
-                    tag_values[result.TagName] = None
-
-            return tag_values
-
+        # Simulate reading tag values
+        tag_values = {tag: random.choice([0, 1]) for tag in tag_names}
+        return tag_values
     except Exception as e:
         print(f"An error occurred: {e}")
+        return None
 
-    return None
 def update_alarm_tags_all_pumps():
-    pump1_alarm_tags = ['VPUMP_1_B10[2].0', 'VPUMP_1_B10[2].1', 'VPUMP_1_B10[2].2', 'VPUMP_1_B10[2].3', 'VPUMP_1_B10[2].4', 'VPUMP_1_B10[2].5', 'VPUMP_1_B10[2].6', 'VPUMP_1_B10[2].7', 'VPUMP_1_B10[2].8', 'VPUMP_1_B10[2].9', 'VPUMP_1_B10[2].10', 'VPUMP_1_B10[2].11', 'VPUMP_1_B10[2].12', 'VPUMP_1_B10[2].13', 'VPUMP_1_B10[2].14', 'VPUMP_1_B10[2].15']
-    pump2_alarm_tags= ['VPUMP_2_B10[2].0', 'VPUMP_2_B10[2].1', 'VPUMP_2_B10[2].2', 'VPUMP_2_B10[2].3', 'VPUMP_2_B10[2].4', 'VPUMP_2_B10[2].5', 'VPUMP_2_B10[2].6', 'VPUMP_2_B10[2].7', 'VPUMP_2_B10[2].8', 'VPUMP_2_B10[2].9', 'VPUMP_2_B10[2].10', 'VPUMP_2_B10[2].11', 'VPUMP_2_B10[2].12', 'VPUMP_2_B10[2].13', 'VPUMP_2_B10[2].14', 'VPUMP_2_B10[2].15']
-    pump3_alarm_tags= ['VPUMP_3_B10[2].0', 'VPUMP_3_B10[2].1', 'VPUMP_3_B10[2].2', 'VPUMP_3_B10[2].3', 'VPUMP_3_B10[2].4', 'VPUMP_3_B10[2].5', 'VPUMP_3_B10[2].6', 'VPUMP_3_B10[2].7', 'VPUMP_3_B10[2].8', 'VPUMP_3_B10[2].9', 'VPUMP_3_B10[2].10', 'VPUMP_3_B10[2].11', 'VPUMP_3_B10[2].12', 'VPUMP_3_B10[2].13', 'VPUMP_3_B10[2].14', 'VPUMP_3_B10[2].15']
-    pump4_alarm_tags= ['VPUMP_4_B10[2].0', 'VPUMP_4_B10[2].1', 'VPUMP_4_B10[2].2', 'VPUMP_4_B10[2].3', 'VPUMP_4_B10[2].4', 'VPUMP_4_B10[2].5', 'VPUMP_4_B10[2].6', 'VPUMP_4_B10[2].7', 'VPUMP_4_B10[2].8', 'VPUMP_4_B10[2].9', 'VPUMP_4_B10[2].10', 'VPUMP_4_B10[2].11', 'VPUMP_4_B10[2].12', 'VPUMP_4_B10[2].13', 'VPUMP_4_B10[2].14', 'VPUMP_4_B10[2].15']
-    pump5_alarm_tags= ['VPUMP_5_B10[2].0', 'VPUMP_5_B10[2].1', 'VPUMP_5_B10[2].2', 'VPUMP_5_B10[2].3', 'VPUMP_5_B10[2].4', 'VPUMP_5_B10[2].5', 'VPUMP_5_B10[2].6', 'VPUMP_5_B10[2].7', 'VPUMP_5_B10[2].8', 'VPUMP_5_B10[2].9', 'VPUMP_5_B10[2].10', 'VPUMP_5_B10[2].11', 'VPUMP_5_B10[2].12', 'VPUMP_5_B10[2].13', 'VPUMP_5_B10[2].14', 'VPUMP_5_B10[2].15']
-    pump1_alarm_comments={'VPUMP_1_B10[2].0':'Vacuum Xmtr Signal Failure Fault Latch','VPUMP_1_B10[2].1':'PSI Xmtr Signal Failure Fault Latch','VPUMP_1_B10[2].10':'test alarm active!'}
-    pump2_alarm_comments={'VPUMP_2_B10[2].0':'Vacuum Xmtr Signal Failure Fault Latch','VPUMP_2_B10[2].1':'PSI Xmtr Signal Failure Fault Latch','VPUMP_2_B10[2].10':'test alarm active!'}
-    pump3_alarm_comments={'VPUMP_3_B10[2].0':'Vacuum Xmtr Signal Failure Fault Latch','VPUMP_3_B10[2].1':'PSI Xmtr Signal Failure Fault Latch','VPUMP_3_B10[2].10':'test alarm active!'}
-    pump4_alarm_comments={'VPUMP_4_B10[2].0':'Vacuum Xmtr Signal Failure Fault Latch','VPUMP_4_B10[2].1':'PSI Xmtr Signal Failure Fault Latch','VPUMP_4_B10[2].10':'test alarm active!'}
-    pump5_alarm_comments={'VPUMP_5_B10[2].0':'Vacuum Xmtr Signal Failure Fault Latch','VPUMP_5_B10[2].1':'PSI Xmtr Signal Failure Fault Latch','VPUMP_5_B10[2].10':'test alarm active!'}
+    pump1_alarm_tags = ['VPUMP_1_B10[2].{}'.format(i) for i in range(16)]
+    pump2_alarm_tags = ['VPUMP_2_B10[2].{}'.format(i) for i in range(16)]
+    pump3_alarm_tags = ['VPUMP_3_B10[2].{}'.format(i) for i in range(16)]
+    pump4_alarm_tags = ['VPUMP_4_B10[2].{}'.format(i) for i in range(16)]
+    pump5_alarm_tags = ['VPUMP_5_B10[2].{}'.format(i) for i in range(16)]
     
+    # Simulate reading alarm tags for all pumps
     pump1_alarm_tag_list = read_alarm_tags_all_pumps(pump1_alarm_tags)
     pump2_alarm_tag_list = read_alarm_tags_all_pumps(pump2_alarm_tags)
     pump3_alarm_tag_list = read_alarm_tags_all_pumps(pump3_alarm_tags)
     pump4_alarm_tag_list = read_alarm_tags_all_pumps(pump4_alarm_tags)
     pump5_alarm_tag_list = read_alarm_tags_all_pumps(pump5_alarm_tags)
 
-    pump1_active_alarms = [pump1_alarm_comments[tag] for tag, value in pump1_alarm_tag_list.items() if value == 1]
-    pump2_active_alarms = [pump2_alarm_comments[tag] for tag, value in pump2_alarm_tag_list.items() if value == 1]
-    pump3_active_alarms = [pump3_alarm_comments[tag] for tag, value in pump3_alarm_tag_list.items() if value == 1]
-    pump4_active_alarms = [pump4_alarm_comments[tag] for tag, value in pump4_alarm_tag_list.items() if value == 1]
-    pump5_active_alarms = [pump5_alarm_comments[tag] for tag, value in pump5_alarm_tag_list.items() if value == 1]
+    # Simulate determining active alarms for each pump
+    pump1_active_alarms = [tag for tag, value in pump1_alarm_tag_list.items() if value == 1]
+    pump2_active_alarms = [tag for tag, value in pump2_alarm_tag_list.items() if value == 1]
+    pump3_active_alarms = [tag for tag, value in pump3_alarm_tag_list.items() if value == 1]
+    pump4_active_alarms = [tag for tag, value in pump4_alarm_tag_list.items() if value == 1]
+    pump5_active_alarms = [tag for tag, value in pump5_alarm_tag_list.items() if value == 1]
 
-    if any(value == 1 for value in pump1_alarm_tag_list.values()):
-        print(pump1_active_alarms)
-        print("ALARM ACTIVE Pump 1")
-        pump1alarmstatus = True 
-    elif all(value == 0 for value in pump1_alarm_tag_list.values()):
-        print("No alarm active Pump 1")
-        pump1alarmstatus = False
-    if any(value == 1 for value in pump2_alarm_tag_list.values()):
-        print(pump2_active_alarms)
-        print("ALARM ACTIVE Pump 2")
-        pump2alarmstatus = True 
-    elif all(value == 0 for value in pump2_alarm_tag_list.values()):
-        print("No alarm active Pump 2")
-        pump2alarmstatus = False
-    if any(value == 1 for value in pump3_alarm_tag_list.values()):
-        print(pump3_active_alarms)
-        print("ALARM ACTIVE Pump 3")
-        pump3alarmstatus = True 
-    elif all(value == 0 for value in pump3_alarm_tag_list.values()):
-        print("No alarm active Pump 3")
-        pump3alarmstatus = False
-    if any(value == 1 for value in pump4_alarm_tag_list.values()):
-        print(pump4_active_alarms)
-        print("ALARM ACTIVE Pump 4")
-        pump4alarmstatus = True 
-    elif all(value == 0 for value in pump4_alarm_tag_list.values()):
-        print("No alarm active Pump 4")
-        pump4alarmstatus = False
-    if any(value == 1 for value in pump5_alarm_tag_list.values()):
-        print(pump5_active_alarms)
-        print("ALARM ACTIVE Pump 5")
-        pump5alarmstatus = True 
-    elif all(value == 0 for value in pump5_alarm_tag_list.values()):
-        print("No alarm active Pump 5")
-        pump5alarmstatus = False
-    else: 
-         print("Error connecting to PLC")
+    # Simulate determining alarm status for each pump
+    pump1_alarm_status = bool(pump1_active_alarms)
+    pump2_alarm_status = bool(pump2_active_alarms)
+    pump3_alarm_status = bool(pump3_active_alarms)
+    pump4_alarm_status = bool(pump4_active_alarms)
+    pump5_alarm_status = bool(pump5_active_alarms)
 
-    pumpmasterstatus={
-    'pump1status':{'alarm_status': pump1alarmstatus, 'active_alarms': pump1_active_alarms},
-    'pump2status':{'alarm_status': pump2alarmstatus, 'active_alarms': pump2_active_alarms},
-    'pump3status':{'alarm_status': pump3alarmstatus, 'active_alarms': pump3_active_alarms},
-    'pump4status':{'alarm_status': pump4alarmstatus, 'active_alarms': pump4_active_alarms},
-    'pump5status':{'alarm_status': pump5alarmstatus, 'active_alarms': pump5_active_alarms},
+    # Construct pump master status dictionary
+    pumpmasterstatus = {
+        'pump1status': {'alarm_status': pump1_alarm_status, 'active_alarms': pump1_active_alarms},
+        'pump2status': {'alarm_status': pump2_alarm_status, 'active_alarms': pump2_active_alarms},
+        'pump3status': {'alarm_status': pump3_alarm_status, 'active_alarms': pump3_active_alarms},
+        'pump4status': {'alarm_status': pump4_alarm_status, 'active_alarms': pump4_active_alarms},
+        'pump5status': {'alarm_status': pump5_alarm_status, 'active_alarms': pump5_active_alarms}
     }
+    
     return pumpmasterstatus
 
+# Example usage
+simulated_data = update_alarm_tags_all_pumps()
+print(simulated_data)
+
+import random
+import time
+
 def update_circle_color():
-    circle_colors = {'pump1color': '','pump2color': '', 'pump3color': '','pump4color': '', 'pump5color': ''}  # Initialize colors
+    circle_colors = {'pump1color': '', 'pump2color': '', 'pump3color': '', 'pump4color': '', 'pump5color': ''}  # Initialize colors
+   
     try:
-        with PLC() as comm:
-            comm.IPAddress = '172.16.21.12' 
-            comm.ProcessorSlot = 0  
-            tags = ['VACUUM_1_STATUS','VACUUM_2_STATUS', 'VACUUM_3_STATUS','VACUUM_4_STATUS', 'VACUUM_5_STATUS']
-            time.sleep(1)
-            results = comm.Read(tags)
-            for result in results:
-                if result.Status == 'Success':
-                    if result.TagName == 'VACUUM_1_STATUS':
-                        pump_1_status_value = result.Value
-                        print(result.Value)
-                        if pump_1_status_value == 3:
-                            circle_colors['pump1color'] = 'green'
-                        elif pump_1_status_value == 2:
-                            circle_colors['pump1color'] = 'red'
-                    if result.TagName == 'VACUUM_2_STATUS':
-                        pump_2_status_value = result.Value
-                        if pump_2_status_value == 3:
-                            circle_colors['pump2color'] = 'green'
-                        elif pump_2_status_value == 2:
-                            circle_colors['pump2color'] = 'red'
-                    if result.TagName == 'VACUUM_3_STATUS':
-                        pump_3_status_value = result.Value
-                        if pump_3_status_value == 3:
-                            circle_colors['pump3color'] = 'green'
-                        elif pump_3_status_value == 2:
-                            circle_colors['pump3color'] = 'red'
-                    if result.TagName == 'VACUUM_4_STATUS':
-                        pump_4_status_value = result.Value
-                        if pump_4_status_value == 3:
-                            circle_colors['pump4color'] = 'green'
-                        elif pump_4_status_value == 2:
-                            circle_colors['pump4color'] = 'red'
-                    if result.TagName == 'VACUUM_5_STATUS':
-                        pump_5_status_value = result.Value
-                        if pump_5_status_value == 3:
-                            circle_colors['pump5color'] = 'green'
-                        elif pump_5_status_value == 2:
-                            circle_colors['pump5color'] = 'red'
-                else:
-                    print(f"Failed to read tag '{result.TagName}'")
-                    break
-            time.sleep(1)
-            print("returning pump statuses")
-            return circle_colors , pump_1_status_value, pump_2_status_value, pump_3_status_value, pump_4_status_value, pump_5_status_value
-              # Return colors after loop
+        time.sleep(5)
+        # Simulate reading tag values
+        pump_1_status_value = random.randint(2, 3)
+        pump_2_status_value = random.randint(2, 3)
+        pump_3_status_value = random.randint(2, 3)
+        pump_4_status_value = random.randint(2, 3)
+        pump_5_status_value = random.randint(2, 3)
+        
+        # Update circle colors based on simulated tag values
+        if pump_1_status_value == 3:
+            circle_colors['pump1color'] = 'green'              
+        elif pump_1_status_value == 2:
+            circle_colors['pump1color'] = 'red'
+            
+        if pump_2_status_value == 3:
+            circle_colors['pump2color'] = 'green'
+        elif pump_2_status_value == 2:
+            circle_colors['pump2color'] = 'red'
+            
+        if pump_3_status_value == 3:
+            circle_colors['pump3color'] = 'green'
+        elif pump_3_status_value == 2:
+            circle_colors['pump3color'] = 'red'
+            
+        if pump_4_status_value == 3:
+            circle_colors['pump4color'] = 'green'
+        elif pump_4_status_value == 2:
+            circle_colors['pump4color'] = 'red'
+            
+        if pump_5_status_value == 3:
+            circle_colors['pump5color'] = 'green'
+        elif pump_5_status_value == 2:
+            circle_colors['pump5color'] = 'red'
+            
+        time.sleep(1)
+        print("Returning pump statuses")
+        return circle_colors, pump_1_status_value, pump_2_status_value, pump_3_status_value, pump_4_status_value, pump_5_status_value
+        
     except Exception as e:
         print(f"An error occurred: {e}")
+        return None
 
-if __name__ == "__main__":
+
     plc_ip_address = "172.16.21.12"
 
 #The Graveyard

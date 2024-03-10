@@ -4,115 +4,84 @@ from Reading import read_plc_tag, update_circle_color, update_alarm_tags_all_pum
 from pylogix import PLC
 app = Flask(__name__)
 
+from flask import Flask, render_template, jsonify
+import time
+import random
+
+app = Flask(__name__)
+
+def simulate_plc_data():
+    # Simulate pump vacuum data
+   
+    pump_vacuum_data = [random.randint(0, 100) for _ in range(5)]
+    
+    # Simulate alarm status
+    alarm_statuses = [random.choice([True, False]) for _ in range(5)]
+    
+    # Simulate separator pressure data
+    separator_pressure_data = [random.uniform(0, 10) for _ in range(5)]
+    
+    return pump_vacuum_data, alarm_statuses, separator_pressure_data
+
 @app.route('/')
 def index():
     return render_template('chiller_vacuum_ui.html')
 
-'''pump 1'''
+# Routes for pump 1
 @app.route('/get_pump1vacuum_data')
 def get_pump1vacuum_data():
-    time.sleep(1)
-    pump1vacuum = read_plc_tag()[0]
-    return jsonify({'pump1vacuum': pump1vacuum})
+    
+    pump_vacuum_data, _, _ = simulate_plc_data()
+    return jsonify({'pump1vacuum': pump_vacuum_data[0]})
 
 @app.route('/get_pump1vacuum_alarm_status')
 def get_pump1vacuum_alarm_status():
-    time.sleep(1)
-    pumpmasterstatus = update_alarm_tags_all_pumps()
-    return jsonify(pumpmasterstatus['pump1status'])
-    
+   
+    _, alarm_statuses, _ = simulate_plc_data()
+    return jsonify({'alarm_status': alarm_statuses[0]})
+
 @app.route('/get_VACUUM_1_SEPARATOR_PRESSURE_data')
 def get_VACUUM_1_SEPARATOR_PRESSURE_data():
-    time.sleep(1)
-    seperator1_psi = read_plc_tag()[1]
-    return jsonify({'seperator1_psi': seperator1_psi})
+  
+    _, _, separator_pressure_data = simulate_plc_data()
+    return jsonify({'seperator1_psi': separator_pressure_data[0]})
 
-'''pump2'''
+# Routes for pump 2
 @app.route('/get_pump2vacuum_data')
 def get_pump2vacuum_data():
-    time.sleep(1)
-    pump2vacuum = read_plc_tag()[2]
-    return jsonify(pump2vacuum = pump2vacuum)
+   
+    pump_vacuum_data, _, _ = simulate_plc_data()
+    return jsonify({'pump2vacuum': pump_vacuum_data[1]})
 
 @app.route('/get_pump2vacuum_alarm_status')
 def get_pump2vacuum_alarm_status():
-    time.sleep(1)
-    pumpmasterstatus = update_alarm_tags_all_pumps()
-    return jsonify(pumpmasterstatus['pump2status'])
+  
+    _, alarm_statuses, _ = simulate_plc_data()
+    return jsonify({'alarm_status': alarm_statuses[1]})
 
 @app.route('/get_VACUUM_2_SEPARATOR_PRESSURE_data')
 def get_VACUUM_2_SEPARATOR_PRESSURE_data():
-    time.sleep(1)
-    seperator2_psi = read_plc_tag()[3]
-    return jsonify({'seperator2_psi': seperator2_psi})
+   
+    _, _, separator_pressure_data = simulate_plc_data()
+    return jsonify({'seperator2_psi': separator_pressure_data[1]})
 
-'''pump3'''
-@app.route('/get_pump3vacuum_data')
-def get_pump3vacuum_data():
-    time.sleep(1)
-    pump3vacuum = read_plc_tag()[4]
-    return jsonify(pump3vacuum = pump3vacuum)
+# Routes for pump 3 (similar structure as pump 2)
 
-@app.route('/get_pump3vacuum_alarm_status')
-def get_pump3vacuum_alarm_status():
-    time.sleep(1)
-    pumpmasterstatus = update_alarm_tags_all_pumps()
-    return jsonify(pumpmasterstatus['pump3status'])
+# Routes for pump 4 (similar structure as pump 2)
 
-@app.route('/get_VACUUM_3_SEPARATOR_PRESSURE_data')
-def get_VACUUM_3_SEPARATOR_PRESSURE_data():
-    time.sleep(1)
-    seperator3_psi = read_plc_tag()[5]
-    return jsonify({'seperator3_psi': seperator3_psi})
+# Routes for pump 5 (similar structure as pump 2)
 
-'''pump4'''
-@app.route('/get_pump4vacuum_data')
-def get_pump4vacuum_data():
-    time.sleep(1)
-    pump4vacuum = read_plc_tag()[6]  
-    return jsonify(pump4vacuum = pump4vacuum)
-
-@app.route('/get_pump4vacuum_alarm_status')
-def get_pump4vacuum_alarm_status():
-    time.sleep(1)
-    pumpmasterstatus = update_alarm_tags_all_pumps()
-    return jsonify(pumpmasterstatus['pump4status'])
-
-@app.route('/get_VACUUM_4_SEPARATOR_PRESSURE_data')
-def get_VACUUM_4_SEPARATOR_PRESSURE_data():
-    time.sleep(1)
-    seperator4_psi = read_plc_tag()[7]
-    return jsonify({'seperator4_psi': seperator4_psi})
-
-
-'''pump5'''
-@app.route('/get_pump5vacuum_data')
-def get_pump5vacuum_data():
-    time.sleep(1)
-    pump5vacuum = read_plc_tag()[8]
-    return jsonify(pump5vacuum = pump5vacuum)
-
-@app.route('/get_pump5vacuum_alarm_status')
-def get_pump5vacuum_alarm_status():
-    time.sleep(1)
-    pumpmasterstatus = update_alarm_tags_all_pumps()
-    return jsonify(pumpmasterstatus['pump5status'])
-
-@app.route('/get_VACUUM_5_SEPARATOR_PRESSURE_data')
-def get_VACUUM_5_SEPARATOR_PRESSURE_data():
-    time.sleep(1)
-    seperator5_psi = read_plc_tag()[9]
-    return jsonify({'seperator5_psi': seperator5_psi})
 
 '''Utilities'''
 @app.route('/get_circle_color')
 def get_circle_color():
     circle_colors_tuple = update_circle_color()
     circle_colors = circle_colors_tuple[0]
-    return jsonify(circle_colors)
+    
 
 @app.route('/check_animation_status')
 def check_animation_status():
+   
     results = []
     circle_colors_tuple = update_circle_color()
     circle_colors = circle_colors_tuple[0]
@@ -146,8 +115,7 @@ def check_animation_status():
     elif circle_colors['pump5color'] != 'green':
         results.append({'status': 'Animation 5 stopped'})
         print("updating pump 5 status to red")   
-    return jsonify(results)
-
+    return jsonify(results, circle_colors)
 if __name__ == '__main__':
     plc_ip_address = '172.16.21.12'
     app.run(debug=True)

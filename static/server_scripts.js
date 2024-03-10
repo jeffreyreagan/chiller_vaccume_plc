@@ -130,23 +130,7 @@ $(document).ready(function() {
     setInterval(fetchPump5VacuumData, 2000);
 
 
-    function updateCircleColor() {
-        fetch('/get_circle_color')
-        .then(response => response.json())
-        .then(circle_colors => {
-            document.getElementById('pump1status').setAttribute('fill', circle_colors.pump1color);
-            document.getElementById('pump2status').setAttribute('fill', circle_colors.pump2color);
-            document.getElementById('pump3status').setAttribute('fill', circle_colors.pump3color);
-            document.getElementById('pump4status').setAttribute('fill', circle_colors.pump4color);
-            document.getElementById('pump5status').setAttribute('fill', circle_colors.pump5color);
-        });
-    }
 
-// Call updateCircleColor() function initially
-    updateCircleColor();
-
-// Call updateCircleColor() function every second
-    setInterval(updateCircleColor, 2000);
     const smallerCircle1 = document.getElementById('pump1status');
     const smallerCircle2 = document.getElementById('pump2status');
     const smallerCircle3 = document.getElementById('pump3status');
@@ -322,52 +306,79 @@ $(document).ready(function() {
             fetch('/check_animation_status') // Fetch the animation status from the server
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data); // Log the response data (for debugging)
-                    if (data[0].status === 'Animation 1 started' && animation_state_p1 !== 2) {
+                    const animationstatuses = data[0];
+                    console.log(animationstatuses);
+                    // Log the response data (for debugging)
+                    if (animationstatuses[0].status === 'Animation 1 started' && animation_state_p1 !== 2) {
                         console.log("trying to start animation p_1");
                         animation_state_p1 = 1;
                         startAnimation(); // Start the animation if it's not already running
-                    } if (data[0].status === 'Animation 1 stopped') {
+                    } 
+                    if (animationstatuses[0].status === 'Animation 1 stopped') {
                         animation_state_p1 = 0;
                         stopAnimation(); // Stop the animation if it's running
-                    } if (data[1].status === 'Animation 2 started' && animation_state_p2 !== 2) {
+                    } 
+                    if (animationstatuses[1].status === 'Animation 2 started' && animation_state_p2 !== 2) {
                         console.log("trying to start animation p_2");
                         animation_state_p2 = 1;
                         startAnimation();
-                    } if (data[1].status === 'Animation 2 stopped'){
+                    } 
+                    if (animationstatuses[1].status === 'Animation 2 stopped') {
                         console.log("trying to stop animation p_2");
                         animation_state_p2 = 0;
                         stopAnimation();
-                    }if (data[2].status === 'Animation 3 started' && animation_state_p3 !== 2) {
+                    }
+                    if (animationstatuses[2].status === 'Animation 3 started' && animation_state_p3 !== 2) {
                         console.log("trying to start animation p_3");
                         animation_state_p3 = 1;
                         startAnimation(); // Start the animation if it's not already running
-                    } if (data[2].status === 'Animation 2 stopped') {
-                        animation_state_p2 = 0;
+                    } 
+                    if (animationstatuses[2].status === 'Animation 3 stopped') {
+                        animation_state_p3 = 0;
                         stopAnimation(); // Stop the animation if it's running
-                    } if (data[3].status === 'Animation 4 started' && animation_state_p4 !== 2) {
+                    } 
+                    if (animationstatuses[3].status === 'Animation 4 started' && animation_state_p4 !== 2) {
                         console.log("trying to start animation p_4");
                         animation_state_p4 = 1;
                         startAnimation();
-                    } if (data[3].status === 'Animation 4 stopped'){
+                    } 
+                    if (animationstatuses[3].status === 'Animation 4 stopped') {
                         console.log("trying to stop animation p_4");
                         animation_state_p4 = 0;
                         stopAnimation();
-                    }if (data[4].status === 'Animation 5 started' && animation_state_p5 !== 2) {
+                    } 
+                    if (animationstatuses[4].status === 'Animation 5 started' && animation_state_p5 !== 2) {
                         console.log("trying to start animation p_5");
                         animation_state_p5 = 1;
                         startAnimation();
-                    } if (data[4].status === 'Animation 5 stopped'){
+                    } 
+                    if (animationstatuses[4].status === 'Animation 5 stopped') {
                         console.log("should be stopping p5 animation");
                         animation_state_p5 = 0;
-                        stopAnimation();}
+                        stopAnimation();
+                    }
+                    return data[1];
+                })
+                .then(circle_colors => {
+                    console.log(circle_colors);
                 
+                    // Set the fill attribute of each pump status element based on the pump colors
+                    document.getElementById('pump1status').setAttribute('fill', circle_colors.pump1color);
+                    document.getElementById('pump2status').setAttribute('fill', circle_colors.pump2color);
+                    document.getElementById('pump3status').setAttribute('fill', circle_colors.pump3color);
+                    document.getElementById('pump4status').setAttribute('fill', circle_colors.pump4color);
+                    document.getElementById('pump5status').setAttribute('fill', circle_colors.pump5color);
                 })
                 .catch(error => {
-                    console.error('Error checking animation status:', error);
+                    console.error('Error updating circle color or animation state:', error);
                 });
         }
+        
+        
 
         // Polling interval: check animation status every 1 second
-        setInterval(checkAnimationStatus, 2000);
+        clearInterval(checkAnimationStatus);
+        setInterval(checkAnimationStatus, 5000);
+        
 });
+checkAnimationStatus();
